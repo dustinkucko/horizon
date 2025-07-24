@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
     "cart-section": {
       "type": "main-cart",
@@ -131,7 +123,6 @@
               "name": "t:names.product_list_button",
               "settings": {
                 "label": "View all",
-                "collection": "{{ closest.collection }}",
                 "open_in_new_tab": false,
                 "style_class": "link",
                 "width": "fit-content",
@@ -148,11 +139,10 @@
           ]
         },
         "static-product-card": {
-          "type": "product-card",
+          "type": "_product-card",
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product": "{{ closest.product }}",
             "product_card_gap": 8,
             "inherit_color_scheme": true,
             "color_scheme": "",
@@ -170,7 +160,6 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "product": "{{ closest.product }}",
                 "image_ratio": "portrait",
                 "border": "none",
                 "border_width": 1,
@@ -184,7 +173,7 @@
               "blocks": {}
             },
             "group_U8Leyx": {
-              "type": "group",
+              "type": "_product-card-group",
               "name": "t:names.group",
               "settings": {
                 "open_in_new_tab": false,
@@ -225,7 +214,6 @@
                   "type": "product-title",
                   "name": "t:names.product_title",
                   "settings": {
-                    "product": "{{ closest.product }}",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -251,7 +239,6 @@
                   "type": "price",
                   "name": "t:names.product_price",
                   "settings": {
-                    "product": "{{ closest.product }}",
                     "show_sale_price_first": true,
                     "show_installments": false,
                     "show_tax_info": false,
@@ -275,7 +262,6 @@
                   "type": "swatches",
                   "name": "t:names.swatches",
                   "settings": {
-                    "product": "{{ closest.product }}",
                     "product_swatches_alignment": "flex-start",
                     "product_swatches_alignment_mobile": "flex-start",
                     "hide_padding": false,
@@ -294,10 +280,7 @@
               ]
             }
           },
-          "block_order": [
-            "product_card_gallery_PEPpfq",
-            "group_U8Leyx"
-          ]
+          "block_order": ["product_card_gallery_PEPpfq", "group_U8Leyx"]
         }
       },
       "name": "t:names.products_grid",
@@ -321,8 +304,5 @@
       }
     }
   },
-  "order": [
-    "cart-section",
-    "product_list_NNFgcy"
-  ]
+  "order": ["cart-section", "product_list_NNFgcy"]
 }

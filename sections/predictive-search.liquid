@@ -1,14 +1,5 @@
 
 
-{% liquid
-  assign background_brightness = section.settings.color_scheme.settings.background | color_brightness
-  if background_brightness < 64
-    assign shadow_opacity = 0.25
-  else
-    assign shadow_opacity = 0.1
-  endif
--%}
-
 {%- if predictive_search.performed or search.performed -%}
   <div
     id="predictive-search-results"
@@ -17,7 +8,7 @@
     aria-label="{{ 'content.search_results_label' | t }}"
     aria-expanded="true"
     data-transition-container
-    style="--color-shadow: rgb(from var(--color-foreground) r g b / {{ shadow_opacity }});"
+    style="--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));"
   >
     <div
       class="predictive-search-results__inner"
@@ -173,6 +164,7 @@
 {% stylesheet %}
   predictive-search-component {
     --resource-card-corner-radius: var(--product-corner-radius);
+
     display: flex;
     width: 100%;
     position: relative;
@@ -180,6 +172,10 @@
     align-items: center;
     background-color: var(--color-background);
     z-index: var(--layer-heightened);
+  }
+
+  input[type='search']::-webkit-search-decoration {
+    -webkit-appearance: none; /* stylelint-disable-line */
   }
 
   .predictive-search-dropdown {
@@ -193,7 +189,7 @@
   }
 
   :not(:is(dialog)) > predictive-search-component {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       max-width: min(40dvw, 650px);
     }
   }
@@ -243,19 +239,16 @@
     display: flex;
     flex-direction: column;
     border-radius: 0 0 var(--search-border-radius) var(--search-border-radius);
-    box-shadow: var(--shadow-popover);
     transition: box-shadow var(--animation-speed) var(--animation-easing);
-    clip-path: inset(0 -100px -100px -100px);
     transform: translateZ(0);
     will-change: transform, opacity;
-
     overflow: hidden;
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       border-radius: 0;
     }
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       max-height: var(--modal-max-height);
       height: var(--predictive-search-results-height, auto);
     }
@@ -291,6 +284,7 @@
     --title-font-size: var(--font-size--md);
     --title-margin-block: var(--margin-xs);
     --list-item-padding-block: var(--padding-sm);
+
     flex-grow: 1;
     overflow-y: auto;
     padding-block: var(--padding-lg);
@@ -340,7 +334,7 @@
     }
 
     &:not(:has(.predictive-search-results__list-item-link--pill))[aria-selected='true'].keyboard-focus {
-      background-color: rgba(from var(--color-primary) r g b / 20%);
+      background-color: rgb(var(--color-primary-rgb) / var(--opacity-20));
       transform: translateY(0);
     }
   }
@@ -363,7 +357,7 @@
   }
 
   .predictive-search-results__list-item[aria-selected='true'] .predictive-search-results__list-item-link--pill {
-    background-color: rgba(from var(--color-primary) r g b / 20%);
+    background-color: rgb(var(--color-primary-rgb) / var(--opacity-20));
   }
 
   .predictive-search-results__list-item-link--no-media {
@@ -374,7 +368,7 @@
   .predictive-search-results__list-item-icon {
     width: 100%;
     border-radius: var(--product-corner-radius);
-    background-color: rgb(from var(--color-primary) r g b / 20%);
+    background-color: rgb(var(--color-primary-rgb) / var(--opacity-20));
     margin: auto;
     object-fit: cover;
   }
@@ -388,7 +382,7 @@
 
   .predictive-search-results__list-item-content {
     font-size: var(--font-size-xs);
-    color: rgba(from var(--color-primary) r g b / var(--opacity-subdued-text));
+    color: rgb(var(--color-primary-rgb) / var(--opacity-subdued-text));
     text-overflow: ellipsis;
     overflow: hidden;
     text-wrap: nowrap;
@@ -418,9 +412,9 @@
     top: auto;
     width: var(--icon-size-lg);
     height: var(--icon-size-lg);
-    color: rgb(from var(--color-foreground) r g b / 60%);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-60));
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       left: var(--margin-md);
     }
   }
@@ -453,7 +447,7 @@
       transition: transform 100ms var(--animation-timing-active);
     }
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       margin-right: var(--margin-md);
     }
   }
@@ -475,7 +469,7 @@
     border-radius: 50%;
 
     &:hover {
-      background-color: rgb(from var(--color-primary-hover) r g b / 8%);
+      background-color: rgb(var(--color-primary-hover-rgb) / var(--opacity-8));
     }
   }
 
@@ -526,7 +520,7 @@
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 8px rgb(0 0 0 / var(--opacity-5));
     }
 
     &:active {
@@ -550,7 +544,7 @@
     background-color: var(--color-input-background);
     border-radius: var(--style-border-radius-inputs);
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       padding: var(--padding-2xs) var(--padding-sm);
     }
   }
@@ -565,7 +559,7 @@
     justify-content: space-between;
     width: 100%;
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       border-radius: var(--style-border-radius-inputs);
       border: none;
     }
@@ -575,7 +569,7 @@
     outline: 0;
     outline-offset: var(--focus-outline-offset);
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       outline: var(--focus-outline-width) solid var(--color-primary);
     }
   }
@@ -585,7 +579,7 @@
     border-right-color: transparent;
     border-left-color: transparent;
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       border-bottom-color: transparent;
     }
   }
@@ -597,7 +591,7 @@
     border-left-color: transparent;
     border-radius: var(--search-border-radius);
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       border-radius: var(--style-border-radius-inputs);
     }
   }
@@ -607,7 +601,7 @@
     transition: box-shadow var(--animation-speed) var(--animation-easing);
     background-color: var(--color-background);
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       border-radius: var(--style-border-radius-inputs) var(--style-border-radius-inputs) 0 0;
     }
   }
@@ -641,7 +635,7 @@
       height: var(--icon-size-xs);
     }
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       display: none;
     }
   }
@@ -652,12 +646,12 @@
     left: 0;
     right: 0;
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       --to-top-gradient-background: linear-gradient(
         to top,
-        rgb(from var(--color-background) r g b / 90%),
-        rgb(from var(--color-background) r g b / 80%),
-        rgb(from var(--color-background) r g b / 40%),
+        rgb(var(--color-background-rgb) / var(--opacity-90)),
+        rgb(var(--color-background-rgb) / var(--opacity-80)),
+        rgb(var(--color-background-rgb) / var(--opacity-40)),
         transparent
       );
 
@@ -672,18 +666,18 @@
     background-color: var(--color-background);
     border-bottom: var(--style-border-width) solid var(--color-border);
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       padding: var(--padding-2xs) var(--padding-2xs) 0;
       border-bottom: var(--search-border-width) solid var(--color-border);
     }
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       transition: box-shadow 0.2s ease;
       box-shadow: none;
     }
   }
 
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     .dialog-modal .predictive-search__close-modal-button {
       padding-inline-start: var(--margin-xs);
       margin-inline-start: 0;
@@ -691,28 +685,24 @@
   }
 
   .dialog-modal[open] {
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       border-radius: 0;
-
-      .dialog-modal_content {
-        border-radius: 0;
-      }
     }
   }
 
   .dialog-modal .predictive-search-form__header:has(.predictive-search-form__header-inner:focus-within) {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       border-bottom-color: transparent;
     }
   }
 
   .dialog-modal .predictive-search-form__header-inner {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       border: 0;
     }
   }
 
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     .dialog-modal {
       .predictive-search__reset-button-icon {
         display: none;
@@ -745,15 +735,15 @@
 
   .predictive-search-results__pill mark {
     background-color: transparent;
-
     font-weight: 200;
-    color: rgb(from var(--color-foreground) r g b / 80%);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-80));
   }
 
   .predictive-search-results__pill:focus,
   .predictive-search-results__pill:hover,
   .predictive-search-results__card--query:is([aria-selected='true'], :focus-within) .predictive-search-results__pill {
-    --pill-background-color: rgb(from var(--color-foreground) r g b / 8%);
+    --pill-background-color: rgb(var(--color-foreground-rgb) / var(--opacity-8));
+
     background-color: var(--pill-background-color);
     outline: var(--border-width-sm) solid var(--color-border);
     border: var(--border-width-sm);
@@ -780,7 +770,7 @@
       margin-block-start: 0;
     }
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       margin-block: var(--margin-lg) var(--margin-sm);
     }
   }
@@ -803,6 +793,7 @@
     scroll-padding: 0 var(--padding-xl);
     scrollbar-width: none;
     -ms-overflow-style: none;
+
     &::-webkit-scrollbar {
       display: none;
     }
@@ -810,6 +801,7 @@
 
   .predictive-search-results__wrapper slideshow-slides {
     --gutter-slide-width: var(--padding-xl);
+
     padding-block: var(--padding-3xs);
     gap: var(--gap-md);
   }
@@ -821,7 +813,7 @@
     gap: var(--gap-md);
     transition: height var(--animation-speed-medium) var(--animation-easing);
 
-    @container (width >= 550px) {
+    @container (min-width: 550px) {
       grid-template-columns: repeat(4, 1fr);
     }
   }
@@ -829,7 +821,7 @@
   .predictive-search-results__wrapper-products:last-child {
     padding-block-end: var(--padding-lg);
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       padding-block-end: var(--padding-sm);
     }
   }
@@ -890,7 +882,7 @@
     width: 60cqi;
     content-visibility: visible;
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       width: 27.5cqi;
     }
 
@@ -915,9 +907,11 @@
       transform: scale(0.95);
       opacity: 0;
     }
+
     40% {
       opacity: 1;
     }
+
     100% {
       transform: scale(1);
       opacity: 1;
@@ -929,6 +923,7 @@
       transform: scale(1);
       opacity: 1;
     }
+
     100% {
       transform: scale(0.95);
       opacity: 0;
@@ -940,6 +935,7 @@
       margin-top: calc(var(--modal-top-margin) + var(--padding-sm));
       opacity: 0;
     }
+
     to {
       margin-top: var(--modal-top-margin);
       opacity: 1;
@@ -951,6 +947,7 @@
       margin-top: var(--modal-top-margin);
       opacity: 1;
     }
+
     to {
       margin-top: calc(var(--modal-top-margin) + var(--padding-sm));
       opacity: 0;
@@ -962,6 +959,7 @@
       transform: translateY(var(--slide-from, 0));
       opacity: var(--slide-opacity-from, 1);
     }
+
     to {
       transform: translateY(var(--slide-to, 0));
       opacity: var(--slide-opacity-to, 1);
@@ -981,13 +979,13 @@
   }
 
   .predictive-search-results__resource-header slideshow-controls {
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       display: none;
     }
   }
 
   .predictive-search-results__list slideshow-arrows {
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       display: none;
     }
   }
@@ -996,7 +994,7 @@
   .predictive-search-dropdown .predictive-search-results__list-item-icon {
     width: 100%;
     border-radius: var(--product-corner-radius);
-    background-color: rgb(from var(--color-primary) r g b / 20%);
+    background-color: rgb(var(--color-primary-rgb) / var(--opacity-20));
     margin: auto;
     object-fit: cover;
   }
@@ -1015,15 +1013,19 @@
   .predictive-search-results__wrapper-products .predictive-search-results__card:nth-child(1) {
     animation-delay: 30ms;
   }
+
   .predictive-search-results__wrapper-products .predictive-search-results__card:nth-child(2) {
     animation-delay: 60ms;
   }
+
   .predictive-search-results__wrapper-products .predictive-search-results__card:nth-child(3) {
     animation-delay: 90ms;
   }
+
   .predictive-search-results__wrapper-products .predictive-search-results__card:nth-child(4) {
     animation-delay: 120ms;
   }
+
   .predictive-search-results__wrapper-products .predictive-search-results__card:nth-child(n + 5) {
     animation-delay: 150ms;
   }
@@ -1048,9 +1050,11 @@
   .predictive-search-results__list:nth-of-type(2) {
     animation-delay: 150ms;
   }
+
   .predictive-search-results__list:nth-of-type(3) {
     animation-delay: 200ms;
   }
+
   .predictive-search-results__list:nth-of-type(4) {
     animation-delay: 250ms;
   }
@@ -1085,11 +1089,13 @@
   .predictive-search-results__no-results {
     transition: opacity var(--animation-speed-medium) var(--animation-timing-fade-in);
   }
+
   @keyframes search-element-slide-up {
     from {
       opacity: 0;
       transform: translateY(8px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -1101,6 +1107,7 @@
       opacity: 1;
       transform: translateY(0);
     }
+
     to {
       opacity: 0;
       transform: translateY(8px);
@@ -1169,7 +1176,7 @@
     border-right-color: transparent;
     border-left-color: transparent;
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       border-bottom-color: transparent;
     }
   }
@@ -1196,7 +1203,7 @@
 
     &:hover {
       transform: scale(1.03);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+      box-shadow: 0 2px 5px rgb(0 0 0 / var(--opacity-8));
     }
   }
 {% endstylesheet %}

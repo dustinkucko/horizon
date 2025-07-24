@@ -221,7 +221,7 @@
   .variant-option--swatches > overflow-list {
     justify-content: var(--product-swatches-alignment);
 
-    @media (width < 750px) {
+    @media (max-width: 749px) {
       justify-content: var(--product-swatches-alignment-mobile);
     }
   }
@@ -242,7 +242,7 @@
 
   .variant-option__swatch-value {
     padding-inline-start: var(--padding-xs);
-    color: rgba(from var(--color-foreground) r g b / 70%);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-70));
   }
 
   .variant-option__button-label {
@@ -273,7 +273,7 @@
       color: var(--color-variant-hover-text);
     }
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       padding: var(--padding-xs) var(--variant-option-padding-inline);
     }
   }
@@ -330,11 +330,11 @@
   }
 
   .variant-option__button-label:has([data-option-available='false']) {
-    color: rgba(from var(--color-variant-text) r g b / 60%);
+    color: rgb(var(--color-variant-text-rgb) / var(--opacity-60));
   }
 
   .facets__inputs-list--swatches-grid .variant-option__button-label--has-swatch:hover .swatch {
-    outline: var(--focus-outline-width) solid rgba(from var(--color-foreground) r g b / 30%);
+    outline: var(--focus-outline-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
     outline-offset: var(--focus-outline-offset);
   }
 
@@ -352,7 +352,7 @@
   }
 
   .variant-option__button-label--has-swatch:hover {
-    outline: var(--focus-outline-width) solid rgba(from var(--color-foreground) r g b / 30%);
+    outline: var(--focus-outline-width) solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
     outline-offset: var(--focus-outline-offset);
   }
 
@@ -371,10 +371,10 @@
   }
 
   .variant-option__button-label:has([data-option-available='false']):has(:checked) {
-    --variant-picker-stroke-color: rgba(from var(--color-variant-text) r g b / 60%);
+    --variant-picker-stroke-color: rgb(var(--color-variant-text-rgb) / var(--opacity-60));
 
     background-color: inherit;
-    color: rgba(from var(--color-variant-text) r g b / 60%);
+    color: rgb(var(--color-variant-text-rgb) / var(--opacity-60));
     border-color: var(--color-selected-variant-border);
   }
 

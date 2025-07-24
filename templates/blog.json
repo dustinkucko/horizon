@@ -1,12 +1,4 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
     "main": {
       "type": "main-blog",
@@ -40,9 +32,7 @@
         "static-blog-post-card": {
           "type": "_blog-post-card",
           "static": true,
-          "settings": {
-            "alignment": "left"
-          },
+          "settings": { "alignment": "left" },
           "blocks": {
             "heading": {
               "type": "_heading",
@@ -99,9 +89,7 @@
           "block_order": []
         }
       },
-      "block_order": [
-        "title"
-      ],
+      "block_order": ["title"],
       "settings": {
         "color_scheme": "",
         "padding-block-start": 0,
@@ -109,7 +97,5 @@
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }
