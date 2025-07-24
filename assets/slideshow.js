@@ -8,6 +8,7 @@ import {
   prefersReducedMotion,
   preventDefault,
   viewTransition,
+  scheduler,
 } from '@theme/utilities';
 import { Scroller, scrollIntoView } from '@theme/scrolling';
 import { SlideshowSelectEvent } from '@theme/events';
@@ -31,6 +32,33 @@ const SLIDE_VISIBLITY_THRESHOLD = 0.7;
  * @extends {Component<Refs>}
  */
 export class Slideshow extends Component {
+  static get observedAttributes() {
+    return ['initial-slide'];
+  }
+
+  /**
+   * @param {string} name
+   * @param {string} oldValue
+   * @param {string} newValue
+   */
+  attributeChangedCallback(name, oldValue, newValue) {
+    // Collection page filtering will Morph slideshow galleries in place, updating
+    // the slideshow[initial-slide] and slideshow-slide[hidden] attributes.
+    // We need to re-select() the slide after the morph is complete, but not before
+    // slideshow-slide elements have their [hidden] attribute updated.
+    if (name === 'initial-slide' && oldValue !== newValue) {
+      queueMicrotask(() => {
+        // Only select if the component is connected and initialized
+        if (!this.isConnected || !this.#scroll || !this.refs.slides) return;
+        const index = parseInt(newValue, 10) || 0;
+        const slide_id = this.refs.slides[index]?.getAttribute('slide-id');
+        if (slide_id) {
+          this.select({ id: slide_id }, undefined, { animate: false });
+        }
+      });
+    }
+  }
+
   requiredRefs = ['scroller'];
 
   async connectedCallback() {
@@ -63,34 +91,37 @@ export class Slideshow extends Component {
 
     this.resume();
 
-    this.current = this.dataset.initialSlide ? parseInt(this.dataset.initialSlide, 10) : 0;
+    this.current = this.initialSlideIndex;
 
-    let visibleSlidesAmount = 0;
-
-    if (this.current !== 0) {
-      this.select(this.current, undefined, { animate: false });
-      visibleSlidesAmount = 1;
-    } else {
-      visibleSlidesAmount = this.#updateVisibleSlides();
-      if (visibleSlidesAmount === 0) {
-        this.select(0, undefined, { animate: false });
+    // Batch reads and writes to the DOM
+    scheduler.schedule(() => {
+      let visibleSlidesAmount = 0;
+      const initialSlideId = this.initialSlide?.getAttribute('slide-id');
+      if (this.initialSlideIndex !== 0 && initialSlideId) {
+        this.select({ id: initialSlideId }, undefined, { animate: false });
         visibleSlidesAmount = 1;
-      }
-    }
-
-    this.#resizeObserver = new ResizeObserver(async () => {
-      if (viewTransition.current) await viewTransition.current;
-
-      if (visibleSlidesAmount > 1) {
-        this.#updateVisibleSlides();
+      } else {
+        visibleSlidesAmount = this.#updateVisibleSlides();
+        if (visibleSlidesAmount === 0) {
+          this.select(0, undefined, { animate: false });
+          visibleSlidesAmount = 1;
+        }
       }
 
-      if (this.hasAttribute('auto-hide-controls')) {
-        this.#updateControlsVisibility();
-      }
+      this.#resizeObserver = new ResizeObserver(async () => {
+        if (viewTransition.current) await viewTransition.current;
+
+        if (visibleSlidesAmount > 1) {
+          this.#updateVisibleSlides();
+        }
+
+        if (this.hasAttribute('auto-hide-controls')) {
+          this.#updateControlsVisibility();
+        }
+      });
+
+      this.#resizeObserver.observe(this.refs.slideshowContainer);
     });
-
-    this.#resizeObserver.observe(this.refs.slideshowContainer);
   }
 
   disconnectedCallback() {
@@ -114,7 +145,7 @@ export class Slideshow extends Component {
     return this.parentElement?.closest('slideshow-component') !== null;
   }
 
-  get defaultSlide() {
+  get initialSlide() {
     return this.refs.slides?.[this.initialSlideIndex];
   }
 
@@ -154,8 +185,10 @@ export class Slideshow extends Component {
       }
     })();
 
+    const { current } = this;
+
     // Guard if invalid
-    if (requestedIndex === undefined || isNaN(requestedIndex)) return;
+    if (requestedIndex === undefined || isNaN(requestedIndex) || requestedIndex === current) return;
 
     const { slides } = this;
 
@@ -164,7 +197,6 @@ export class Slideshow extends Component {
 
     event?.preventDefault();
 
-    const { current } = this;
     const { animate = true } = options;
     const lastIndex = slides.length - 1;
 
@@ -650,7 +682,10 @@ export class Slideshow extends Component {
    * @type {number}
    */
   get initialSlideIndex() {
-    return this.dataset.initialSlide ? parseInt(this.dataset.initialSlide, 10) : 0;
+    const initialSlide = this.getAttribute('initial-slide');
+    if (initialSlide == null) return 0;
+
+    return parseInt(initialSlide, 10);
   }
 
   /**
@@ -697,10 +732,13 @@ export class Slideshow extends Component {
 
     const visibleSlides = this.visibleSlides;
 
-    // Update aria-hidden based on visibility
-    slides.forEach((slide) => {
-      const isVisible = visibleSlides.includes(slide);
-      slide.setAttribute('aria-hidden', `${!isVisible}`);
+    // Batch writes to the DOM
+    scheduler.schedule(() => {
+      // Update aria-hidden based on visibility
+      slides.forEach((slide) => {
+        const isVisible = visibleSlides.includes(slide);
+        slide.setAttribute('aria-hidden', `${!isVisible}`);
+      });
     });
 
     return visibleSlides.length;

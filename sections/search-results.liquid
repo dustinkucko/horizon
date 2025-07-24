@@ -3,6 +3,7 @@
 <script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
+  fetchpriority="low"
 ></script>
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -36,7 +37,7 @@
             data-product-id="{{ product.id }}"
             ref="cards[]"
           >
-            {% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}
+            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
           </li>
         {% endfor %}
       {% endcapture %}

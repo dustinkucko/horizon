@@ -4,9 +4,6 @@
   if section.settings.collection_list != blank
     assign section_collections = section.settings.collection_list
     assign max_items = section.settings.collection_list.count
-  elsif template.name == 'list-collections'
-    assign section_collections = collections
-    assign max_items = 20
   elsif section.settings.layout_type == 'editorial'
     assign max_items = section.settings.max_collections
   elsif section.settings.layout_type == 'bento'
@@ -39,11 +36,13 @@
         echo '--resource-list-column-gap-desktop: ' | append: section.settings.columns_gap | append: 'px;'
         echo '--column-count: ' | append: section.settings.columns | append: ';'
         echo '--column-count-mobile: 1;'
+        echo '--mobile-card-size: ' | append: section.settings.mobile_card_size | append: ';'
       endcapture
   endcase
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
 <div
   class="
     section
@@ -52,7 +51,7 @@
     section-resource-list
     spacing-style
     gap-style
-    {% if template.name != 'list-collections' and section.settings.collection_list == blank and request.design_mode == false %}
+    {% if section.settings.collection_list == blank and request.design_mode == false %}
       in-onboarding-state
     {% endif %}
   "
@@ -77,7 +76,7 @@
   {% capture list_items %}
     {% for collection in section_collections limit: max_items %}
       <div class="resource-list__item">
-        {% content_for 'block', type: 'collection-card', id: 'static-collection-card', closest.collection: collection %}
+        {% content_for 'block', type: '_collection-card', id: 'static-collection-card', closest.collection: collection %}
       </div>
       {% unless forloop.last %}
         <!--@list/split-->
@@ -142,6 +141,7 @@
         --resource-list-column-gap-desktop: {{ mobile_carousel_gap }}px;
         --column-count: {{ section.settings.columns }};
         --column-count-mobile: 1;
+        --mobile-card-size: {{ section.settings.mobile_card_size }};
       "
     >
       {% render 'resource-list-carousel',
@@ -261,6 +261,23 @@
       ],
       "default": "2",
       "visible_if": "{{ section.settings.layout_type == 'grid' and section.settings.carousel_on_mobile == false }}"
+    },
+    {
+      "type": "select",
+      "id": "mobile_card_size",
+      "label": "t:settings.mobile_columns",
+      "options": [
+        {
+          "value": "60cqw",
+          "label": "t:options.one_number"
+        },
+        {
+          "value": "44cqw",
+          "label": "t:options.two_number"
+        }
+      ],
+      "default": "60cqw",
+      "visible_if": "{{ section.settings.layout_type == 'carousel' or section.settings.carousel_on_mobile == true }}"
     },
     {
       "type": "range",
@@ -491,11 +508,10 @@
           "block_order": ["text_bc98Wh"]
         },
         "static-collection-card": {
-          "type": "collection-card",
+          "type": "_collection-card",
           "name": "t:names.collection_card",
           "static": true,
           "settings": {
-            "collection": "{{ closest.collection }}",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-end",
             "placement": "on_image",
@@ -510,16 +526,12 @@
             "collection-card-image": {
               "type": "_collection-card-image",
               "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "collection": "{{ closest.collection }}"
-              }
+              "static": true
             },
             "collection-title": {
               "type": "collection-title",
               "name": "t:names.collection_title",
               "settings": {
-                "collection": "{{ closest.collection }}",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -605,11 +617,10 @@
           "block_order": ["text_bc98Wh"]
         },
         "static-collection-card": {
-          "type": "collection-card",
+          "type": "_collection-card",
           "name": "t:names.collection_card",
           "static": true,
           "settings": {
-            "collection": "{{ closest.collection }}",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "flex-start",
             "placement": "on_image",
@@ -624,16 +635,12 @@
             "collection-card-image": {
               "type": "_collection-card-image",
               "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "collection": "{{ closest.collection }}"
-              }
+              "static": true
             },
             "collection-title": {
               "type": "collection-title",
               "name": "t:names.collection_title",
               "settings": {
-                "collection": "{{ closest.collection }}",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -735,11 +742,10 @@
           "block_order": ["text_nQEaGV"]
         },
         "static-collection-card": {
-          "type": "collection-card",
+          "type": "_collection-card",
           "name": "t:names.collection_card",
           "static": true,
           "settings": {
-            "collection": "{{ closest.collection }}",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
             "placement": "below_image",
@@ -754,16 +760,12 @@
             "collection-card-image": {
               "type": "_collection-card-image",
               "name": "t:names.collection_card_image",
-              "static": true,
-              "settings": {
-                "collection": "{{ closest.collection }}"
-              }
+              "static": true
             },
             "collection-title": {
               "type": "collection-title",
               "name": "t:names.collection_title",
               "settings": {
-                "collection": "{{ closest.collection }}",
                 "type_preset": "rte",
                 "font": "var(--font-body--family)",
                 "font_size": "",
@@ -875,11 +877,10 @@
           "block_order": ["text"]
         },
         "static-collection-card": {
-          "type": "collection-card",
+          "type": "_collection-card",
           "name": "t:names.collection_card",
           "static": true,
           "settings": {
-            "collection": "{{ closest.collection }}",
             "placement": "below_image",
             "horizontal_alignment": "flex-start",
             "vertical_alignment": "center",
@@ -896,7 +897,6 @@
               "type": "collection-title",
               "name": "t:names.collection_title",
               "settings": {
-                "collection": "{{ closest.collection }}",
                 "width": "fit-content",
                 "max_width": "normal",
                 "alignment": "left",
@@ -923,7 +923,6 @@
               "name": "t:names.collection_card_image",
               "static": true,
               "settings": {
-                "collection": "{{ closest.collection }}",
                 "image_ratio": "portrait",
                 "toggle_overlay": false,
                 "overlay_color": "#00000026",

@@ -11,6 +11,7 @@
 <script
   src="{{ 'cart-drawer.js' | asset_url }}"
   type="module"
+  fetchpriority="low"
 ></script>
 
 <cart-drawer-component
@@ -141,7 +142,7 @@
     top: 0;
     z-index: 1;
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       padding: var(--cart-drawer-padding-desktop);
     }
   }

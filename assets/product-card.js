@@ -254,9 +254,11 @@ export class ProductCard extends Component {
    * @param {PointerEvent} event - The pointer event.
    */
   previewImage(event) {
+    if (event.pointerType !== 'mouse') return;
+
     const { slideshow } = this.refs;
 
-    if (!slideshow || event.pointerType !== 'mouse') return;
+    if (!slideshow) return;
 
     this.resetVariant.cancel();
 
@@ -270,9 +272,13 @@ export class ProductCard extends Component {
 
   /**
    * Resets the image to the variant image.
+   * @param {PointerEvent} event - The pointer event.
    */
-  resetImage() {
+  resetImage(event) {
+    if (event.pointerType !== 'mouse') return;
+
     const { slideshow } = this.refs;
+
     if (!this.variantPicker) {
       if (!slideshow) return;
       slideshow.previous(undefined, { animate: false });
@@ -289,9 +295,9 @@ export class ProductCard extends Component {
 
     if (!slideshow) return;
 
-    const defaultSlide = slideshow.defaultSlide;
-    const slideId = defaultSlide?.getAttribute('slide-id');
-    if (defaultSlide && slideshow.slides?.includes(defaultSlide) && slideId) {
+    const initialSlide = slideshow.initialSlide;
+    const slideId = initialSlide?.getAttribute('slide-id');
+    if (initialSlide && slideshow.slides?.includes(initialSlide) && slideId) {
       slideshow.select({ id: slideId }, undefined, { animate: false });
       return;
     } else if (!this.variantPicker?.selectedOption) {
@@ -324,6 +330,9 @@ export class ProductCard extends Component {
   navigateToProduct = (event) => {
     if (!(event.target instanceof Element)) return;
 
+    // Don't navigate if this product card is marked as no-navigation (e.g., in theme editor)
+    if (this.hasAttribute('data-no-navigation')) return;
+
     const interactiveElement = event.target.closest('button, input, label, select, a, [tabindex="1"]');
 
     // If the click was on an interactive element which is not the main link, do nothing.
@@ -344,7 +353,10 @@ export class ProductCard extends Component {
     if (parent && parent.dataset.page) {
       url.searchParams.set('page', parent.dataset.page);
     }
-    history.replaceState({}, '', url.toString());
+
+    if (!window.Shopify.designMode) {
+      history.replaceState({}, '', url.toString());
+    }
 
     this.#navigateToURL(event, linkURL);
   };

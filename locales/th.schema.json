@@ -161,7 +161,8 @@
     "split_showcase": "การแสดงผลแบบแบ่งส่วน",
     "variant_pickers": "รายการตัวเลือกสินค้า",
     "pills": "ทรงเม็ดยา",
-    "large_logo": "โลโก้ขนาดใหญ่"
+    "large_logo": "โลโก้ขนาดใหญ่",
+    "description": "คำอธิบาย"
   },
   "settings": {
     "alignment": "การจัดแนว",
@@ -487,7 +488,10 @@
     "text_label_case": "เคสป้ายกำกับข้อความ",
     "transition_to_main_product": "การเปลี่ยนจากบัตรสินค้าไปยังหน้าสินค้า",
     "show_second_image_on_hover": "แสดงรูปภาพที่สองเมื่อนำเมาส์ไปวาง",
-    "media": "สื่อ"
+    "media": "สื่อ",
+    "product_card_carousel": "แสดงภาพสไลด์",
+    "hide_resource_setting": "ซ่อนการตั้งค่าแหล่งข้อมูล",
+    "media_fit": "การปรับสื่อ"
   },
   "options": {
     "adapt_to_image": "ปรับตามรูปภาพ",
@@ -845,7 +849,24 @@
     "text": "ข้อความ",
     "thumbnails": "รูปภาพขนาดย่อ",
     "visibility": "การแสดงผล",
-    "app_required_for_ratings": "จำเป็นต้องมีแอปสำหรับการรีวิวสินค้า [ดูข้อมูลเพิ่มเติม](https://help.shopify.com/manual/apps)"
+    "app_required_for_ratings": "จำเป็นต้องมีแอปสำหรับการรีวิวสินค้า [ดูข้อมูลเพิ่มเติม](https://help.shopify.com/manual/apps)",
+    "icon": "ไอคอน",
+    "manage_store_name": "[จัดการชื่อร้านค้า](/admin/settings/general?edit=storeName)",
+    "resource_reference_collection_card": "แสดงคอลเลกชันจากส่วนหลัก",
+    "resource_reference_collection_card_image": "แสดงภาพจากคอลเลกชันหลัก",
+    "resource_reference_collection_title": "แสดงชื่อจากคอลเลกชันหลัก",
+    "resource_reference_product": "เชื่อมต่อกับสินค้าหลักโดยอัตโนมัติ",
+    "resource_reference_product_card": "แสดงสินค้าจากส่วนหลัก",
+    "resource_reference_product_inventory": "แสดงสินค้าคงคลังจากสินค้าหลัก",
+    "resource_reference_product_price": "แสดงราคาจากสินค้าหลัก",
+    "resource_reference_product_recommendations": "แสดงการแนะนำตามสินค้าหลัก",
+    "resource_reference_product_review": "แสดงรีวิวจากสินค้าหลัก",
+    "resource_reference_product_swatches": "แสดงตัวอย่างจากสินค้าหลัก",
+    "resource_reference_product_title": "แสดงชื่อจากสินค้าหลัก",
+    "resource_reference_product_variant_picker": "แสดงตัวเลือกสินค้าจากสินค้าหลัก",
+    "product_media": "สื่อประกอบสินค้า",
+    "resource_reference_product_media": "แสดงสื่อจากสินค้าหลัก",
+    "section_link": "ลิงก์ไปยังส่วน"
   },
   "html_defaults": {
     "share_information_about_your": "<p>แชร์ข้อมูลเกี่ยวกับแบรนด์ของคุณให้ลูกค้าทราบ โดยอธิบายคุณสมบัติของสินค้า แชร์ประกาศ หรือกล่าวต้อนรับลูกค้าสู่ร้านค้าของคุณ</p>"

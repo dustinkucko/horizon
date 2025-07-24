@@ -14,6 +14,7 @@
 <script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
+  fetchpriority="low"
 ></script>
 
 {% javascript %}
@@ -62,7 +63,7 @@
               data-view-transition-id="{{ product.id }}"
               ref="cards[]"
             >
-              {% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}
+              {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             </li>
           {% endfor %}
         {% endcapture %}
@@ -80,7 +81,7 @@
             ref="cards[]"
           >
             {% # theme-check-disable %}
-            {% content_for 'block', type: 'product-card', id: 'product-card', closest.product: product %}
+            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
           </li>
         {% endfor %}
@@ -99,13 +100,14 @@
 {% stylesheet %}
   .main-collection-grid {
     grid-column: var(--grid-column--mobile);
-    @media screen and (width >= 750px) {
+
+    @media screen and (min-width: 750px) {
       grid-column: var(--grid-column--desktop);
     }
   }
 
   .collection-wrapper {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       grid-template-columns:
         1fr repeat(
           var(--centered-column-number),
@@ -117,7 +119,7 @@
 
   .collection-wrapper:has(.facets-block-wrapper--full-width),
   .collection-wrapper:has(.collection-wrapper--full-width) {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       grid-column: 1 / -1;
       grid-template-columns:
         minmax(var(--page-margin), 1fr) repeat(
@@ -129,13 +131,13 @@
   }
 
   .collection-wrapper:has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden) ~ .main-collection-grid {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       grid-column: var(--facets-vertical-col-width) / var(--full-width-column-number);
     }
   }
 
   .collection-wrapper:has(.facets-block-wrapper--vertical:not(#filters-drawer)):has(.collection-wrapper--full-width) {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       grid-column: 1 / -1;
       grid-template-columns: 0fr repeat(var(--centered-column-number), minmax(0, 1fr)) 0fr;
     }
@@ -143,9 +145,8 @@
 
   :is(.collection-wrapper--full-width, .collection-wrapper--full-width-on-mobile)
     [product-grid-view='default']
-    .product-grid__item
-    .group-block {
-    @media screen and (width < 750px) {
+    .product-grid__card {
+    @media screen and (max-width: 749px) {
       padding-inline-start: max(var(--padding-xs), var(--padding-inline-start));
       padding-inline-end: max(var(--padding-xs), var(--padding-inline-end));
     }
@@ -153,11 +154,19 @@
 
   :is(.collection-wrapper--full-width, .collection-wrapper--full-width-on-mobile)
     [product-grid-view='mobile-single']
-    .product-grid__item
-    .group-block {
-    @media screen and (width < 750px) {
+    .product-grid__card {
+    @media screen and (max-width: 749px) {
       padding-inline-start: max(var(--padding-xs), var(--padding-inline-start));
       padding-inline-end: max(var(--padding-xs), var(--padding-inline-end));
+    }
+  }
+
+  /* Make product media go edge-to-edge by using negative margins */
+  :is(.collection-wrapper--full-width) .card-gallery,
+  :is(.collection-wrapper--full-width-on-mobile) .card-gallery {
+    @media screen and (max-width: 749px) {
+      margin-inline-start: calc(-1 * max(var(--padding-xs), var(--padding-inline-start)));
+      margin-inline-end: calc(-1 * max(var(--padding-xs), var(--padding-inline-end)));
     }
   }
 {% endstylesheet %}
