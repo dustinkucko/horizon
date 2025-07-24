@@ -5,6 +5,30 @@
  */
 document.addEventListener('shopify:block:select', function (event) {
   if (event.target instanceof HTMLElement) {
+    // Check if the selected element is specifically a product-card block itself
+    // Not a child block within the product card
+
+    // First, remove data-no-navigation from any previously selected product cards
+    document.querySelectorAll('product-card[data-no-navigation]').forEach((card) => {
+      if (card instanceof HTMLElement) {
+        card.removeAttribute('data-no-navigation');
+      }
+    });
+
+    if (event.target.tagName === 'PRODUCT-CARD') {
+      const section = event.target.closest('.shopify-section');
+
+      if (section) {
+        const productCardsInSection = section.querySelectorAll('product-card');
+
+        productCardsInSection.forEach((card) => {
+          if (card instanceof HTMLElement) {
+            card.setAttribute('data-no-navigation', 'true');
+          }
+        });
+      }
+    }
+
     const slide = event.target.closest('slideshow-slide');
 
     if (slide) {
@@ -26,6 +50,11 @@ document.addEventListener('shopify:block:select', function (event) {
 
 document.addEventListener('shopify:block:deselect', function (event) {
   if (event.target instanceof HTMLElement) {
+    // Remove data-no-navigation when product card is deselected
+    if (event.target.tagName === 'PRODUCT-CARD') {
+      event.target.removeAttribute('data-no-navigation');
+    }
+
     /** @type {import('./slideshow').Slideshow | null} */
     const slideshow = event.target.closest('slideshow-component');
 
@@ -42,9 +71,47 @@ document.addEventListener('shopify:block:deselect', function (event) {
  *
  * This script is used to save the state of these features and restore it when the page is refreshed, to make things a little more seamless.
  */
-if (window.Shopify?.designMode) {
+
+// Detect when page is about to unload
+// This helps distinguish between theme editor refreshes (which don't trigger beforeunload)
+// and actual navigation (which does trigger beforeunload)
+window.addEventListener('beforeunload', function (event) {
+  // Set a flag to indicate that an actual unload is happening (not just a refresh)
+  sessionStorage.setItem('editor-page-unloading', 'true');
+});
+
+// Check if the device is iOS as Safari on iOS doesn't support the beforeunload event
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+if (window.Shopify?.designMode && !isIOS) {
+  // Skip editor state management on iOS devices
   (function editorStateManager() {
     const EDITOR_PREFIX = 'editor-save-state';
+
+    /**
+     * Check if the page just unloaded (actual navigation) vs a refresh
+     * @returns {boolean}
+     */
+    function wasPageUnloading() {
+      const unloading = sessionStorage.getItem('editor-page-unloading') === 'true';
+      // Clear the flag after checking
+      if (unloading) {
+        sessionStorage.removeItem('editor-page-unloading');
+      }
+      return unloading;
+    }
+
+    /**
+     * Clear all saved editor states
+     */
+    function clearAllEditorStates() {
+      const keys = Object.keys(sessionStorage);
+      keys.forEach((key) => {
+        if (key.startsWith(EDITOR_PREFIX)) {
+          sessionStorage.removeItem(key);
+        }
+      });
+    }
 
     /**
      * @param {string} name
@@ -186,21 +253,27 @@ if (window.Shopify?.designMode) {
     ];
 
     // On page load, restore the state of the features
-    features.forEach((feature) => {
-      const el = document.querySelector(feature.selector);
-      if (!el) return;
+    // Skip restoration if the page just unloaded (actual navigation happened)
+    if (wasPageUnloading()) {
+      // Clear all saved states since we navigated away
+      clearAllEditorStates();
+    } else {
+      features.forEach((feature) => {
+        const el = document.querySelector(feature.selector);
+        if (!el) return;
 
-      const state = getEditorState(feature.name);
-      const shouldBeOpen = state?.isOpen;
-      const instanceId = state?.instanceId;
+        const state = getEditorState(feature.name);
+        const shouldBeOpen = state?.isOpen;
+        const instanceId = state?.instanceId;
 
-      if (shouldBeOpen) {
-        // Prevents race condition with the open methods not always being available immediately
-        setTimeout(() => {
-          feature.open(el, instanceId);
-        });
-      }
-    });
+        if (shouldBeOpen) {
+          // Prevents race condition with the open methods not always being available immediately
+          setTimeout(() => {
+            feature.open(el, instanceId);
+          });
+        }
+      });
+    }
 
     /** @param {Element} el */
     const update = (el) => {

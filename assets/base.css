@@ -9,6 +9,7 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100svh;
+  font-variation-settings: 'slnt' 0;
 }
 
 :root {
@@ -23,12 +24,16 @@ body {
 html {
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: rgb(from var(--color-foreground) r g b / 40%) var(--color-background);
+  scrollbar-color: rgb(var(--color-foreground-rgb) / var(--opacity-40)) var(--color-background);
   scroll-behavior: smooth;
 }
 
 html[scroll-lock] {
   overflow: hidden;
+}
+
+[popover]:not(:popover-open, dialog[open]) {
+  display: none;
 }
 
 img,
@@ -81,14 +86,9 @@ select {
 
 .product-card__content {
   position: relative;
-  pointer-events: none;
 }
 
-.product-card__content :is(a, button, input, label, select, .card-gallery) {
-  pointer-events: auto;
-}
-
-.product-card__content .card-gallery {
+.product-card__content {
   cursor: pointer;
 }
 
@@ -185,11 +185,11 @@ select {
 }
 
 dialog {
+  /* the ::backdrop inherits from the originating element, custom properties must be set on the dialog element */
+  --backdrop-color-rgb: var(--color-shadow-rgb);
+
   background-color: var(--color-background);
   color: var(--color-foreground);
-
-  /* the ::backdrop inherits from the originating element, custom properties must be set on the dialog element */
-  --backdrop-color: var(--color-shadow);
 }
 
 p,
@@ -206,13 +206,14 @@ p:empty {
   display: none;
 }
 
-:is(p, h1, h2, h3, h4, h5, h6):first-child,
-:empty:first-child + :where(p, h1, h2, h3, h4, h5, h6) {
+:first-child:is(p, h1, h2, h3, h4, h5, h6),
+:first-child:empty + :where(p, h1, h2, h3, h4, h5, h6) {
   margin-block-start: 0;
 }
 
-:is(p, h1, h2, h3, h4, h5, h6):last-child,
-:where(p, h1, h2, h3, h4, h5, h6) + :has(+ :empty:last-child) {
+/* Remove bottom margin from last text item, or previous to last if the last is empty */
+:last-child:is(p, h1, h2, h3, h4, h5, h6),
+:where(p, h1, h2, h3, h4, h5, h6):nth-child(2):has(+ :last-child:empty) {
   margin-block-end: 0;
 }
 
@@ -317,7 +318,7 @@ p:empty {
   --page-margin: 16px;
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   .page-width-wide,
   .page-width-normal,
   .page-width-narrow,
@@ -389,19 +390,19 @@ p:empty {
 }
 
 /* Make the actual section background transparent, and instead apply it to a separate sibling element to enable stacking with hero shadow  */
-.shopify-section:not(.header-section) :is(.section:is([class*='color-scheme-']), .cart__summary-container) {
+.shopify-section:not(.header-section) :is(.section, .cart__summary-container) {
   background: transparent;
 }
 
-.shopify-section:not(.header-section):has(.section:is([class*='color-scheme-'])) {
+.shopify-section:not(.header-section):has(.section) {
   position: relative;
+}
 
-  .section-background {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: var(--layer-section-background);
-  }
+.shopify-section:not(.header-section) .section-background {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: var(--layer-section-background);
 }
 
 /* For page-width sections, all content goes in the center column */
@@ -423,7 +424,7 @@ p:empty {
 .section--full-width.section--full-width-margin > * {
   grid-column: 1 / -1;
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     padding-left: var(--page-margin);
     padding-right: var(--page-margin);
   }
@@ -464,7 +465,7 @@ p:empty {
   display: none !important;
 }
 
-@media screen and (width < 750px) {
+@media screen and (max-width: 749px) {
   .hidden--mobile,
   .mobile\:hidden {
     /* stylelint-disable-next-line declaration-no-important */
@@ -472,7 +473,7 @@ p:empty {
   }
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   .hidden--desktop,
   .desktop\:hidden {
     /* stylelint-disable-next-line declaration-no-important */
@@ -499,7 +500,7 @@ p:empty {
   word-wrap: normal !important;
 }
 
-@media screen and (width < 750px) {
+@media screen and (max-width: 749px) {
   .is-visually-hidden-mobile:not(:focus, :active) {
     /* stylelint-disable-next-line declaration-no-important */
     position: absolute !important;
@@ -513,6 +514,10 @@ p:empty {
     /* stylelint-disable-next-line declaration-no-important */
     word-wrap: normal !important;
   }
+}
+
+.contents {
+  display: contents;
 }
 
 .flex {
@@ -530,7 +535,7 @@ p:empty {
   flex-direction: column;
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   .grid {
     display: grid;
     gap: 0;
@@ -539,7 +544,7 @@ p:empty {
   }
 }
 
-@media screen and (width >= 1400px) {
+@media screen and (min-width: 1400px) {
   .grid {
     grid-template-columns:
       1fr repeat(
@@ -573,7 +578,7 @@ p:empty {
   position: absolute;
   overflow: hidden;
   height: 1px;
-  clip-path: rect(0 0 0 0);
+  left: -99999px;
   word-wrap: normal !important;
 }
 
@@ -582,7 +587,6 @@ p:empty {
   overflow: auto;
   width: auto;
   height: auto;
-  clip-path: unset;
   padding: var(--padding-lg) var(--padding-4xl);
   left: var(--margin-lg);
   top: var(--margin-lg);
@@ -609,6 +613,10 @@ p:empty {
 
 .text-inherit {
   color: inherit;
+}
+
+.user-select-text {
+  user-select: text;
 }
 
 .justify-left {
@@ -700,12 +708,8 @@ placeholder-image {
 }
 
 placeholder-image[data-type='product'] {
-  background-color: rgba(from var(--color-foreground) r g b / 15%);
+  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-15));
   width: 100%;
-}
-
-placeholder-image[data-type='product'] > img {
-  mix-blend-mode: luminosity;
 }
 
 /** Placeholder background for the placeholder image, the dimensions are the same as the product images */
@@ -734,6 +738,16 @@ body,
   color: var(--color, var(--color-foreground));
 }
 
+/* Ensure inputs with type presets maintain minimum 16px on mobile to prevent iOS zoom */
+@media screen and (max-width: 1200px) {
+  input.paragraph.paragraph,
+  input.paragraph.paragraph:not([type]),
+  textarea.paragraph.paragraph,
+  select.paragraph.paragraph {
+    font-size: max(1rem, var(--font-paragraph--size));
+  }
+}
+
 .paragraph > small {
   font-size: smaller;
 }
@@ -753,6 +767,14 @@ h1,
   color: var(--color, var(--font-h1-color));
 }
 
+@media screen and (max-width: 1200px) {
+  input.h1.h1,
+  textarea.h1.h1,
+  select.h1.h1 {
+    font-size: max(1rem, var(--font-h1--size));
+  }
+}
+
 h2,
 .h2.h2,
 .text-block.h2 > * {
@@ -764,6 +786,14 @@ h2,
   letter-spacing: var(--font-h2--letter-spacing);
   text-transform: var(--font-h2--case);
   color: var(--color, var(--font-h2-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h2.h2,
+  textarea.h2.h2,
+  select.h2.h2 {
+    font-size: max(1rem, var(--font-h2--size));
+  }
 }
 
 h3,
@@ -780,6 +810,14 @@ h3,
   color: var(--color, var(--font-h3-color));
 }
 
+@media screen and (max-width: 1200px) {
+  input.h3,
+  textarea.h3,
+  select.h3 {
+    font-size: max(1rem, var(--font-h3--size));
+  }
+}
+
 h4,
 .h4.h4,
 .text-block.h4 > * {
@@ -791,6 +829,14 @@ h4,
   letter-spacing: var(--font-h4--letter-spacing);
   text-transform: var(--font-h4--case);
   color: var(--color, var(--font-h4-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h4.h4,
+  textarea.h4.h4,
+  select.h4.h4 {
+    font-size: max(1rem, var(--font-h4--size));
+  }
 }
 
 h5,
@@ -806,6 +852,14 @@ h5,
   color: var(--color, var(--font-h5-color));
 }
 
+@media screen and (max-width: 1200px) {
+  input.h5.h5,
+  textarea.h5.h5,
+  select.h5.h5 {
+    font-size: max(1rem, var(--font-h5--size));
+  }
+}
+
 h6,
 .h6.h6,
 .text-block.h6 > * {
@@ -819,11 +873,19 @@ h6,
   color: var(--color, var(--font-h6-color));
 }
 
-:is(.h1, .h2, .h3, .h4, .h5, .h6):first-child {
+@media screen and (max-width: 1200px) {
+  input.h6.h6,
+  textarea.h6.h6,
+  select.h6.h6 {
+    font-size: max(1rem, var(--font-h6--size));
+  }
+}
+
+:first-child:is(.h1, .h2, .h3, .h4, .h5, .h6) {
   margin-block-start: 0;
 }
 
-:is(.h1, .h2, .h3, .h4, .h5, .h6):last-child {
+:last-child:is(.h1, .h2, .h3, .h4, .h5, .h6) {
   margin-block-end: 0;
 }
 
@@ -890,7 +952,7 @@ summary::-webkit-details-marker {
   width: 100%;
   padding-block: var(--padding-block-start) var(--padding-block-end);
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     display: grid;
   }
 }
@@ -904,7 +966,7 @@ summary::-webkit-details-marker {
   list-style: none;
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   .product-grid {
     grid-template-columns: var(--product-grid-columns-desktop);
   }
@@ -915,8 +977,7 @@ summary::-webkit-details-marker {
 }
 
 .product-grid__item {
-  border: var(--product-card-border-width) solid
-    rgba(from var(--color-border) r g b / var(--product-card-border-opacity));
+  border: var(--product-card-border-width) solid rgb(var(--color-border-rgb) / var(--product-card-border-opacity));
 }
 
 .product-grid--organic[product-grid-view='default'] .product-grid__item {
@@ -943,8 +1004,8 @@ summary::-webkit-details-marker {
   --product-grid-gap: 16px;
   --padding-block-start: 24px;
   --padding-block-end: 24px;
-  --padding-inline-start: 0;
-  --padding-inline-end: 0;
+  --padding-inline-start: 0px;
+  --padding-inline-end: 0px;
 }
 
 [product-grid-view='default'] .product-grid__item {
@@ -953,13 +1014,13 @@ summary::-webkit-details-marker {
 
 [product-grid-view='mobile-single'],
 .product-grid-mobile--large {
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     grid-template-columns: 1fr;
   }
 }
 
 .product-grid__card .group-block > * {
-  @media screen and (width <= 749px) {
+  @media screen and (max-width: 749px) {
     flex-direction: column;
   }
 }
@@ -976,10 +1037,6 @@ ul[product-grid-view='zoom-out'] .product-grid__card .card-gallery {
   .card-gallery
   > :is(quick-add-component, .product-badges, slideshow-component > slideshow-controls) {
   display: none;
-}
-
-[product-grid-view='zoom-out'] :is(.card-gallery, .card-gallery .slideshow-control) {
-  pointer-events: none;
 }
 
 ul[product-grid-view='zoom-out'] .card-gallery > img {
@@ -1120,12 +1177,12 @@ results-list[initialized] {
 }
 
 .text-block > *:first-child,
-.text-block > *:empty:first-child + * {
+.text-block > *:first-child:empty + * {
   margin-block-start: 0;
 }
 
 .text-block > *:last-child,
-.text-block > *:has(+ *:empty:last-child) {
+.text-block > *:has(+ *:last-child:empty) {
   margin-block-end: 0;
 }
 
@@ -1139,12 +1196,12 @@ results-list[initialized] {
   border: none;
   box-shadow: var(--shadow-popover);
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     border-radius: var(--style-border-radius-popover);
     max-width: var(--normal-content-width);
   }
 
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     max-width: 100%;
     max-height: 100%;
     height: 100dvh;
@@ -1156,7 +1213,7 @@ results-list[initialized] {
 .dialog-modal::backdrop {
   transition: backdrop-filter var(--animation-speed) var(--animation-easing);
   backdrop-filter: brightness(1);
-  background: rgba(from var(--backdrop-color) r g b / var(--backdrop-opacity));
+  background: rgb(var(--backdrop-color-rgb) / var(--backdrop-opacity));
 }
 
 .dialog-modal[open] {
@@ -1348,7 +1405,7 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 }
 
 .show-more__button:hover {
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     color: var(--color-primary-hover);
   }
 }
@@ -1455,22 +1512,22 @@ media-gallery {
 }
 
 .product-media-gallery__slideshow--single-media slideshow-container {
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     grid-area: unset;
   }
 }
 
 :not(.dialog-zoomed-gallery) > .product-media-container {
-  display: flex;
-  aspect-ratio: var(--gallery-aspect-ratio, var(--media-preview-ratio));
-  max-height: var(--constrained-height);
-
-  /* Relative position needed for video and 3d models */
-  position: relative;
-
   /* width and overflow forces children to shrink to parent width */
   --slide-width: round(up, 100%, 1px);
 
+  display: flex;
+  aspect-ratio: var(--gallery-aspect-ratio, var(--media-preview-ratio));
+  max-height: var(--constrained-height);
+  width: 100%;
+
+  /* Relative position needed for video and 3d models */
+  position: relative;
   overflow: hidden;
 
   &:where(.constrain-height) {
@@ -1488,17 +1545,22 @@ media-gallery:where(.media-gallery--grid) .media-gallery__grid {
   display: none;
 }
 
+media-gallery.media-gallery--grid .media-gallery__grid .product-media-container {
+  /* Needed for safari to stretch to full grid height */
+  height: 100%;
+}
+
 .product-media :is(deferred-media, product-model) {
   position: absolute;
 }
 
-@media screen and (width < 750px) {
+@media screen and (max-width: 749px) {
   .product-media-container.constrain-height {
     max-height: none;
   }
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   .product-media-container.constrain-height {
     --viewport-offset: var(--header-height, 100px);
     --constrained-min-height: 500px;
@@ -1554,6 +1616,11 @@ media-gallery:where(.media-gallery--grid) .media-gallery__grid {
   height: 100%;
   z-index: var(--layer-flat);
   cursor: zoom-in;
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
 }
 
 zoom-dialog dialog {
@@ -1594,9 +1661,32 @@ zoom-dialog dialog {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  animation: elementSlideInBottom var(--animation-speed) var(--animation-easing) forwards;
-  animation-delay: calc(var(--animation-speed) * 2);
+
+  /* For the outline radius */
+  border-radius: 50%;
+}
+
+/* This triggers iOS < 16.4. The outline bug is not recognized as a lack of @supports */
+
+@supports not (background-color: rgb(from red 150 g b / alpha)) {
+  /**
+    There is a bug in safari < 16.4 that causes the outline to not follow the elements border radius. This is a workaround.
+    Using element selector to increase specificity.
+  **/
+
+  .close-button:focus-visible {
+    outline: none;
+    overflow: visible;
+  }
+
+  .close-button:focus-visible::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--focus-outline-offset));
+    border: var(--focus-outline-width) solid currentColor;
+    border-radius: 50%;
+    display: inherit;
+  }
 }
 
 .dialog--closed .close-button {
@@ -1630,7 +1720,7 @@ zoom-dialog dialog {
   animation: thumbnailsSlideOutBottom var(--animation-speed) var(--animation-easing) forwards;
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   .dialog-thumbnails-list {
     position: fixed;
     flex-direction: column;
@@ -1664,7 +1754,7 @@ zoom-dialog dialog {
   &:is([aria-selected='true']) {
     outline: var(--focus-outline-width) solid currentcolor;
     outline-offset: calc(var(--focus-outline-offset) / 2);
-    border: var(--style-border-width) solid rgba(from var(--color-border) r g b / var(--media-border-opacity));
+    border: var(--style-border-width) solid rgb(var(--color-border-rgb) / var(--media-border-opacity));
   }
 }
 
@@ -1674,8 +1764,8 @@ zoom-dialog dialog {
 }
 
 .close-button svg {
-  width: 20px;
-  height: 20px;
+  width: var(--icon-size-xs);
+  height: var(--icon-size-xs);
 }
 
 /* Product media */
@@ -1730,7 +1820,7 @@ slideshow-slide .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui_
   right: var(--padding-lg);
 }
 
-@media screen and (width < 750px) {
+@media screen and (max-width: 749px) {
   slideshow-component:has(:not(.mobile\:hidden) :is(.slideshow-controls__dots, .slideshow-controls__counter))
     .shopify-model-viewer-ui__controls-area {
     /* Position the controls just above the counter */
@@ -1738,7 +1828,7 @@ slideshow-slide .shopify-model-viewer-ui__controls-area.shopify-model-viewer-ui_
   }
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   slideshow-component:has(:not(.desktop\:hidden) :is(.slideshow-controls__dots, .slideshow-controls__counter))
     .shopify-model-viewer-ui__controls-area {
     /* Position the controls just above the counter */
@@ -1822,10 +1912,10 @@ deferred-media[data-media-loaded] img {
   filter: drop-shadow(var(--shadow-button));
 
   &:hover {
-    color: rgba(from var(--color-white) r g b / 80%);
+    color: rgb(var(--color-white-rgb) / var(--opacity-80));
   }
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     width: 4rem;
     height: 4rem;
   }
@@ -1859,7 +1949,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 /* Swatches */
 .swatch {
-  --color-border: rgb(from var(--color-foreground) r g b / var(--style-border-swatch-opacity));
+  --color-border: rgb(var(--color-foreground-rgb) / var(--style-border-swatch-opacity));
   --min-width-unitless: 15.9999; /* want to avoid division by 0 */
   --min-height-unitless: 15.9999; /* want to avoid division by 0 */
   --min-height: 16px;
@@ -1954,10 +2044,10 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   &.swatch--pill {
     --style-border-swatch-width: var(--variant-picker-border-width);
     --style-border-swatch-style: var(--variant-picker-border-style);
-    --color-border: rgb(from var(--color-foreground) r g b / var(--variant-picker-border-opacity));
+    --color-border: rgb(var(--color-foreground-rgb) / var(--variant-picker-border-opacity));
   }
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     /* desktop values */
     --max-swatch-size: 32px;
     --max-pill-size: 16px;
@@ -1976,7 +2066,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   z-index: var(--layer-flat);
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   .sticky-content--desktop,
   .sticky-content--desktop.full-height--desktop > .group-block {
     position: sticky;
@@ -1993,8 +2083,17 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 .unit-price {
   display: block;
-  font-size: 0.85em;
-  color: rgb(from var(--color-foreground) r g b / var(--opacity-subdued-text));
+  font-size: min(0.85em, var(--font-paragraph--size));
+  color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+}
+
+.tax-note.tax-note.tax-note {
+  font-size: min(0.85em, var(--font-paragraph--size));
+  color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+}
+
+product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
+  margin-block: 0;
 }
 
 .compare-at-price {
@@ -2003,16 +2102,11 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   text-decoration-thickness: 1.5px;
 }
 
-.tax-note,
-.unit-price {
-  color: rgb(from var(--color-foreground) r g b / var(--opacity-subdued-text));
-}
-
 .card-gallery {
   position: relative;
 }
 
-@media screen and (width >= 750px) {
+@media screen and (min-width: 750px) {
   product-card:focus-within .quick-add__button,
   .card-gallery:hover .quick-add__button {
     display: grid;
@@ -2093,7 +2187,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 .spacing-style {
   --spacing-scale: var(--spacing-scale-md);
 
-  @media screen and (width >= 990px) {
+  @media screen and (min-width: 990px) {
     --spacing-scale: var(--spacing-scale-default);
   }
 
@@ -2126,7 +2220,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   width: var(--size-style-width-mobile, var(--size-style-width));
   height: var(--size-style-height-mobile, var(--size-style-height));
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     width: var(--size-style-width);
     height: var(--size-style-height);
   }
@@ -2182,7 +2276,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 .layout-panel-flex {
   --gap-scale: var(--spacing-scale-md);
 
-  @media screen and (width >= 990px) {
+  @media screen and (min-width: 990px) {
     --gap-scale: var(--spacing-scale-default);
   }
 }
@@ -2205,7 +2299,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   justify-content: var(--vertical-alignment);
 }
 
-@media screen and (width < 750px) {
+@media screen and (max-width: 749px) {
   .mobile-column {
     flex-flow: column nowrap;
     align-items: var(--horizontal-alignment);
@@ -2227,7 +2321,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   }
 }
 
-@media (width >= 750px) {
+@media (min-width: 750px) {
   .layout-panel-flex {
     flex-direction: var(--flex-direction);
   }
@@ -2252,6 +2346,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   color: var(--color-input-text);
   border: none;
   outline: none;
+  font-size: var(--font-paragraph--size);
 
   &:autofill {
     background-color: var(--color-input-background);
@@ -2273,7 +2368,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 }
 
 .field__label {
-  color: rgb(from var(--color-input-text) r g b / 80%);
+  color: rgb(var(--color-input-text-rgb) / var(--opacity-80));
   font-size: var(--font-paragraph--size);
   left: var(--input-padding-x);
   top: 50%;
@@ -2291,8 +2386,8 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     margin-block: clamp(1.5rem, 1em * 3.3, 2.5rem) clamp(1rem, 1em * 0.25, 2rem);
   }
 
-  :is(p, h1, h2, h3, h4, h5, h6):first-child,
-  :empty:first-child + :is(p, h1, h2, h3, h4, h5, h6) {
+  :first-child:is(p, h1, h2, h3, h4, h5, h6),
+  :first-child:empty + :is(p, h1, h2, h3, h4, h5, h6) {
     margin-block-start: 0;
   }
 
@@ -2311,7 +2406,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
     margin-inline: 1.5em 2.3em;
     margin-block: 3.8em;
     padding-inline-start: 0.8em;
-    border-inline-start: 1.5px solid rgb(from var(--color-foreground) r g b / 30%);
+    border-inline-start: 1.5px solid rgb(var(--color-foreground-rgb) / var(--opacity-25));
     font-style: italic;
     font-weight: 500;
   }
@@ -2328,13 +2423,13 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
   tr:not(:has(td)),
   thead {
-    background-color: rgb(from var(--color-foreground) r g b / 5%);
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
     font-weight: bold;
     text-transform: uppercase;
   }
 
   tr:has(td) {
-    border-bottom: 1px solid rgb(from var(--color-foreground) r g b / 10%);
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-10));
   }
 
   th,
@@ -2358,13 +2453,13 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   --checkbox-label-padding: 8px;
   --checkbox-path-opacity: 0;
   --checkbox-cursor: pointer;
-  --checkbox-border: 1px solid rgb(from var(--color-foreground) r g b / 35%);
+  --checkbox-border: 1px solid rgb(var(--color-foreground-rgb) / var(--opacity-35-55));
 
   position: relative;
   display: flex;
   align-items: center;
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     --checkbox-size: 16px;
     --checkbox-border-radius: 5px;
     --checkbox-label-padding: 6px;
@@ -2580,7 +2675,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 /* Pills (used in facets and predictive search) */
 
 .pills__pill {
-  --pills-pill-background-color: rgb(from var(--color-foreground) r g b / 5%);
+  --pills-pill-background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5-15));
 
   color: var(--color-foreground);
   display: flex;
@@ -2595,10 +2690,10 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   transition: background-color var(--animation-speed) var(--animation-easing);
 
   &:hover {
-    --pills-pill-background-color: rgb(from var(--color-foreground) r g b / 8%);
+    --pills-pill-background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
   }
 
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     padding: var(--padding-xs) var(--padding-md);
   }
 }
@@ -2611,7 +2706,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 }
 
 .pills__pill--swatch {
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     padding-inline-start: var(--padding-sm);
   }
 }
@@ -2621,7 +2716,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 }
 
 .pills__pill--desktop-small {
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     font-size: var(--font-size--xs);
   }
 }
@@ -2976,7 +3071,7 @@ fly-to-cart {
   border-radius: 20px;
   min-width: 20px;
   padding: 0 6px;
-  background-color: rgb(from var(--color-foreground) r g b / 10%);
+  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));
   color: var(--color-foreground);
   align-items: center;
   justify-content: center;
@@ -2993,10 +3088,10 @@ fly-to-cart {
   position: absolute;
   z-index: var(--layer-lowest);
   inset: 0;
-  clip-path: inset(-50px 0 0 0);
+  clip-path: inset(-50px 0 0 0); /* stylelint-disable-line */
 }
 
-@media (width >= 750px) {
+@media (min-width: 750px) {
   .top-shadow--mobile::before {
     display: none;
   }
@@ -3008,10 +3103,10 @@ fly-to-cart {
   position: absolute;
   z-index: var(--layer-lowest);
   inset: 0;
-  clip-path: inset(0 0 -50px 0);
+  clip-path: inset(0 0 -50px 0); /* stylelint-disable-line */
 }
 
-@media (width >= 750px) {
+@media (min-width: 750px) {
   .bottom-shadow--mobile::before {
     display: none;
   }
@@ -3099,7 +3194,7 @@ slideshow-slides {
     min-height: 25rem;
   }
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     &[size='small'] {
       min-height: 26.25rem;
     }
@@ -3119,7 +3214,7 @@ slideshow-component[disabled='true'] slideshow-slides {
 }
 
 slideshow-component[mobile-disabled] slideshow-slides {
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     overflow: hidden;
   }
 }
@@ -3148,7 +3243,11 @@ slideshow-slide {
   }
 }
 
-@media screen and (width < 750px) {
+slideshow-slide.product-media-container--tallest {
+  content-visibility: visible;
+}
+
+@media screen and (max-width: 749px) {
   /* Media gallery has a peeking slide on the right side always, and on the left side when the current slide is the last one */
   .media-gallery--hint
     :is(
@@ -3239,14 +3338,14 @@ slideshow-controls::-webkit-scrollbar {
 }
 
 slideshow-controls button {
+  --color: rgb(var(--color-foreground-rgb) / var(--opacity-30));
+  --color-active: var(--color-foreground);
+  --color-hover: rgb(var(--color-foreground-rgb) / var(--opacity-50));
+
   display: inline-block;
   height: var(--minimum-touch-target);
   width: var(--minimum-touch-target);
   cursor: pointer;
-
-  --color: color-mix(in lch, var(--color-foreground) 30%, transparent);
-  --color-active: var(--color-foreground);
-  --color-hover: color-mix(in lch, var(--color-foreground) 50%, transparent);
 }
 
 slideshow-controls .icon {
@@ -3345,6 +3444,7 @@ slideshow-controls[controls-on-media] {
 
   &:has(.slideshow-controls__dots, .slideshow-controls__counter) {
     --color-foreground: #fff;
+    --color-foreground-rgb: var(--color-white-rgb);
   }
 
   &[pagination-position='right'] {
@@ -3396,13 +3496,14 @@ slideshow-controls:is([pagination-position='right'], [pagination-position='left'
   list-style: none;
 
   button {
-    --color: color-mix(in lch, var(--color-foreground) 30%, transparent);
+    --color: rgb(var(--color-foreground-rgb) / var(--opacity-30));
     --color-active: var(--color-foreground);
-    --color-hover: color-mix(in lch, var(--color-foreground) 50%, transparent);
+    --color-hover: rgb(var(--color-foreground-rgb) / var(--opacity-50));
   }
 }
 
-slideshow-controls:has(.slideshow-controls__dots) {
+slideshow-controls:has(.slideshow-controls__dots),
+slideshow-component[autoplay] slideshow-controls {
   mix-blend-mode: difference;
 }
 
@@ -3470,7 +3571,7 @@ slideshow-controls:has(.slideshow-controls__dots) {
   font-size: var(--font-size--xs);
 
   .slash {
-    color: rgb(from var(--color-foreground) r g b / 40%);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-40));
     padding-inline: var(--padding-2xs);
     margin-block-start: -0.1rem;
   }
@@ -3497,24 +3598,27 @@ slideshow-controls:has(.slideshow-controls__dots) {
   }
 }
 
-.slideshow-control .icon-caret {
-  rotate: -90deg;
-}
-
-.slideshow-control--shape-square,
-.slideshow-control--shape-circle {
+/* Slideshow control shape styles */
+.button-unstyled.slideshow-control.slideshow-control--shape-square,
+.button-unstyled.slideshow-control.slideshow-control--shape-circle {
+  display: flex;
+  align-items: center;
   justify-content: center;
   aspect-ratio: 1 / 1;
   background-color: var(--color-primary-button-background);
   color: var(--color-primary-button-text);
 }
 
-.slideshow-control--shape-circle {
+.button-unstyled.slideshow-control.slideshow-control--shape-circle {
   border-radius: 50%;
 }
 
-.slideshow-control--shape-square {
+.button-unstyled.slideshow-control.slideshow-control--shape-square {
   border-radius: 0;
+}
+
+.slideshow-control .icon-caret {
+  rotate: -90deg;
 }
 
 /* Slideshow Thumbnails */
@@ -3549,7 +3653,7 @@ slideshow-controls:has(.slideshow-controls__dots) {
     &:is([aria-selected='true']) {
       outline: var(--focus-outline-width) solid currentcolor;
       outline-offset: calc(var(--focus-outline-offset) / 2);
-      border: var(--style-border-width) solid rgba(from var(--color-border) r g b / var(--media-border-opacity));
+      border: var(--style-border-width) solid rgb(var(--color-border-rgb) / var(--media-border-opacity));
     }
   }
 }
@@ -3569,7 +3673,7 @@ slideshow-controls:has(.slideshow-controls__dots) {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 1px rgba(from var(--color-foreground) r g b / 5%);
+  box-shadow: 0 0 0 1px rgb(var(--color-foreground-rgb) / var(--opacity-5));
 }
 
 .slideshow-controls__thumbnail-badge svg {
@@ -3596,14 +3700,12 @@ slideshow-component:is([autoplay]) {
   &:is([paused]) {
     .icon-play > svg {
       display: block;
-      mix-blend-mode: difference;
     }
   }
 
   &:not([paused]) {
     .icon-pause > svg {
       display: block;
-      mix-blend-mode: difference;
     }
   }
 }
@@ -3618,7 +3720,7 @@ slideshow-arrows {
   display: flex;
   z-index: var(--layer-heightened);
   pointer-events: none;
-  mix-blend-mode: unset;
+  mix-blend-mode: difference;
   align-items: flex-end;
 
   &[position='left'] {
@@ -3635,10 +3737,11 @@ slideshow-arrows {
     justify-content: space-between;
     align-items: center;
   }
+}
 
-  &[shape='none'] {
-    mix-blend-mode: difference;
-  }
+slideshow-arrows:has(.slideshow-control--shape-square),
+slideshow-arrows:has(.slideshow-control--shape-circle) {
+  mix-blend-mode: normal;
 }
 
 slideshow-component[disabled='true'] slideshow-arrows {
@@ -3650,9 +3753,6 @@ slideshow-arrows .slideshow-control {
   opacity: 0;
   min-height: var(--minimum-touch-target);
   padding: 0 var(--padding-xs);
-}
-
-slideshow-arrows .slideshow-control.slideshow-control--shape-none {
   color: var(--color-white);
 }
 
@@ -3728,7 +3828,7 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 }
 
 .section-resource-list.section--full-width product-card-link > .group-block {
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     padding-inline: max(var(--padding-xs), var(--padding-inline-start))
       max(var(--padding-xs), var(--padding-inline-end));
   }
@@ -3737,7 +3837,7 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 .resource-list--carousel-mobile {
   display: block;
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     display: none;
   }
 }
@@ -3749,11 +3849,11 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 
   width: 100%;
 
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     --resource-list-mobile-gap-max: 12px;
   }
 
-  @container resource-list (width < 750px) {
+  @container resource-list (max-width: 749px) {
     --resource-list-mobile-gap-max: 12px;
   }
 }
@@ -3763,15 +3863,15 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
   gap: var(--resource-list-row-gap) var(--resource-list-column-gap);
   grid-template-columns: var(--resource-list-columns-mobile);
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     grid-template-columns: var(--resource-list-columns);
   }
 
-  @container resource-list (width < 450px) {
+  @container resource-list (max-width: 449px) {
     grid-template-columns: var(--resource-list-columns-mobile);
   }
 
-  @container resource-list (width >= 450px) and (width < 750px) {
+  @container resource-list(min-width: 450px) and (max-width: 749px) {
     --resource-list-columns-per-row: 3;
 
     grid-template-columns: repeat(var(--resource-list-columns-per-row), 1fr);
@@ -3784,7 +3884,7 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
     }
   }
 
-  @container resource-list (width >= 750px) {
+  @container resource-list (min-width: 750px) {
     grid-template-columns: repeat(var(--resource-list-columns-per-row), 1fr);
 
     &:has(.resource-list__item:first-child:nth-last-child(n + 9)) {
@@ -3808,7 +3908,7 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
     }
   }
 
-  @container resource-list (width >= 1200px) {
+  @container resource-list (min-width: 1200px) {
     &:has(.resource-list__item:first-child:nth-last-child(6)) {
       --resource-list-columns-per-row: 6;
     }
@@ -3822,12 +3922,12 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 }
 
 .resource-list__carousel {
+  --slide-width: 60vw;
+
   width: 100%;
   position: relative;
   container-type: inline-size;
   container-name: resource-list-carousel;
-
-  --slide-width: 60vw;
 
   .slideshow-control[disabled] {
     display: none;
@@ -3838,19 +3938,19 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
   }
 }
 
-@container resource-list-carousel (width < 750px) {
+@container resource-list-carousel (max-width: 749px) {
   .resource-list__carousel .resource-list__slide {
-    --slide-width: clamp(150px, 60cqw, var(--slide-width-max));
+    --slide-width: clamp(150px, var(--mobile-card-size, 60cqw), var(--slide-width-max));
   }
 }
 
-@container resource-list-carousel (width >= 750px) {
+@container resource-list-carousel (min-width: 750px) {
   .resource-list__carousel .resource-list__slide {
     --section-slide-width: calc(
       (100% - (var(--resource-list-column-gap) * (var(--column-count) - 1)) - var(--peek-next-slide-size)) /
         var(--column-count)
     );
-    --fallback-slide-width: clamp(150px, 60cqw, var(--slide-width-max));
+    --fallback-slide-width: clamp(150px, var(--mobile-card-size, 60cqw), var(--slide-width-max));
     --slide-width: var(--section-slide-width, var(--fallback-slide-width));
   }
 }
@@ -3958,7 +4058,7 @@ slideshow-arrows .slideshow-control.slideshow-control--style-none {
 }
 
 .search-input::placeholder {
-  color: rgba(from var(--color-foreground) r g b / var(--opacity-subdued-text));
+  color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
 }
 
 accordion-custom {
@@ -4003,20 +4103,20 @@ accordion-custom {
 }
 
 accordion-custom[data-disable-on-mobile='true'] summary {
-  @media screen and (width < 750px) {
+  @media screen and (max-width: 749px) {
     cursor: auto;
   }
 }
 
 accordion-custom[data-disable-on-desktop='true'] summary {
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     cursor: auto;
   }
 }
 
 text-component {
-  --shimmer-text-color: rgba(from var(--color-foreground) r g b / 50%);
-  --shimmer-color-light: rgba(from var(--color-foreground) r g b / 10%);
+  --shimmer-text-color: rgb(var(--color-foreground-rgb) / var(--opacity-50));
+  --shimmer-color-light: rgb(var(--color-foreground-rgb) / var(--opacity-10));
   --shimmer-speed: 1.25s;
 
   display: inline-block;
@@ -4089,7 +4189,7 @@ text-component {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(from var(--color-foreground) r g b / 40%);
+  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-40));
   border-radius: 20px;
   border: 6px solid transparent;
   background-clip: content-box;
@@ -4097,7 +4197,7 @@ text-component {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(from var(--color-foreground) r g b / 60%);
+  background-color: rgb(var(--color-foreground-rgb) / var(--opacity-60));
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -4116,7 +4216,7 @@ text-component {
 }
 
 /* Product card title truncation - applied on mobile regardless of view */
-@media screen and (width < 750px) {
+@media screen and (max-width: 749px) {
   :is(.product-card, .product-grid__card) :is(h4, .h4) {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -4124,12 +4224,6 @@ text-component {
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
   }
-}
-
-/* These are sections with placeholders that we don't want to have appear on the storefront when empty */
-.shopify-section:has(.in-onboarding-state) {
-  /* stylelint-disable-next-line declaration-no-important */
-  display: none !important;
 }
 
 .product-card:hover,
@@ -4152,4 +4246,35 @@ text-component {
   z-index: auto;
   transform: none;
   box-shadow: none;
+}
+
+/* Prevent iOS zoom on input focus by ensuring minimum 16px font size on mobile */
+@media screen and (max-width: 1200px) {
+  input,
+  textarea,
+  select,
+  /* Higher specificity to override type preset classes like .paragraph, .h1, etc. */
+  .paragraph.paragraph input,
+  .paragraph.paragraph textarea,
+  .paragraph.paragraph select,
+  .h1.h1 input,
+  .h1.h1 textarea,
+  .h1.h1 select,
+  .h2.h2 input,
+  .h2.h2 textarea,
+  .h2.h2 select,
+  .h3.h3 input,
+  .h3.h3 textarea,
+  .h3.h3 select,
+  .h4.h4 input,
+  .h4.h4 textarea,
+  .h4.h4 select,
+  .h5.h5 input,
+  .h5.h5 textarea,
+  .h5.h5 select,
+  .h6.h6 input,
+  .h6.h6 textarea,
+  .h6.h6 select {
+    font-size: max(1rem, 100%);
+  }
 }

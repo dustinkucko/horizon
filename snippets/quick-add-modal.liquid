@@ -7,7 +7,7 @@
     <button
       ref="closeButton"
       on:click="/closeDialog"
-      class="button quick-add-modal__close"
+      class="button button-unstyled close-button quick-add-modal__close"
       aria-label="{{ 'accessibility.close_dialog' | t }}"
     >
       {{- 'icon-close.svg' | inline_asset_content -}}
@@ -26,7 +26,7 @@
     height: fit-content;
     overflow: hidden;
     min-height: 500px;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 30px rgb(0 0 0 / var(--opacity-15));
 
     @media screen and (max-width: 750px) {
       position: fixed;
@@ -39,7 +39,7 @@
   }
 
   .quick-add-modal[open] {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       display: flex;
     }
   }
@@ -62,25 +62,12 @@
     position: absolute;
     top: var(--margin-2xs);
     right: var(--margin-2xs);
-    width: var(--minimum-touch-target);
-    height: var(--minimum-touch-target);
-    color: var(--color-foreground);
-    background-color: var(--color-background);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    z-index: 2;
-    transition: transform 0.15s var(--animation-timing-bounce), opacity 0.15s var(--animation-easing);
+    transition: transform 0.15s var(--animation-timing-bounce);
+    z-index: var(--layer-raised);
   }
 
   .quick-add-modal__close:active {
     transform: scale(0.8);
-  }
-
-  .quick-add-modal__close svg {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
   }
 
   .quick-add-modal__content {
@@ -155,7 +142,7 @@
   }
 
   .quick-add-modal__content .product-header a:not(product-price *) {
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       font-size: var(--font-size--md);
       font-weight: 500;
       color: inherit;
@@ -168,6 +155,14 @@
     @media screen and (max-width: 750px) {
       grid-column: 1 / -1;
     }
+  }
+
+  .quick-add-modal__content .variant-picker__form {
+    display: block;
+  }
+
+  .quick-add-modal__content fieldset {
+    margin-top: var(--padding-lg);
   }
 
   .quick-add-modal__content .product-media-container__zoom-button {
@@ -205,9 +200,13 @@
   }
 
   .quick-add-modal__content .product-details .variant-picker {
+    --product-swatches-padding-block-end: 0px;
     flex: 1 1 auto;
     overflow-y: auto;
     min-height: 0;
+    padding-block-end: calc(
+      var(--product-swatches-padding-block-end) + var(--focus-outline-offset) + var(--focus-outline-width)
+    );
   }
 
   .quick-add-modal__content .variant-option--swatches {
@@ -263,7 +262,7 @@
       .view-more-details__wrapper,
       .view-more-details__wrapper *
     ) {
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       display: none !important;
     }
   }
@@ -283,12 +282,13 @@
           product-inventory *,
           .view-more-details__wrapper,
           .view-more-details__wrapper *
-        )
-    ):not(.buy-buttons-block) {
+        ),
+      .buy-buttons-block
+    ) {
     display: none;
   }
 
-  @media screen and (width >= 750px) {
+  @media screen and (min-width: 750px) {
     .quick-add-modal__content .group-block-content {
       gap: min(var(--gap-2xl), var(--gap));
     }
@@ -328,7 +328,7 @@
     top: 0;
     animation: fadeIn 0.4s var(--animation-timing-fade-in) both;
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       position: sticky;
       grid-column: 1 / 4;
       overflow-y: auto;
@@ -344,7 +344,7 @@
   .quick-add-modal__content .product-information__media media-gallery {
     pointer-events: none;
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       position: absolute;
       inset: 0;
     }
@@ -420,6 +420,7 @@
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);

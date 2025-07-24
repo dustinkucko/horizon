@@ -1,17 +1,20 @@
-{% comment %}
+{% doc %}
   Renders the predictive search empty state
 
-  Accepts:
-  - empty_state_collection: @object - collection object
-  - shadow_opacity: @number - shadow opacity
-  - products_test_id: @string - a playwright test id, used to differentiate empty state from 'real' search results
-{% endcomment %}
+  @param {object} empty_state_collection - collection used to in empty state
+  @param {number} shadow_opacity - shadow opacity for the empty state container shadow
+  @param {string} products_test_id - a playwright test id, used to differentiate empty state from 'real' search results
+
+  @example
+  {% render 'predictive-search-empty-state', shadow_opacity: 0.1, products_test_id: 'empty-state' %}
+{% enddoc %}
+
 <div
   id="predictive-search-results"
   class="predictive-search-dropdown"
   role="listbox"
   aria-expanded="true"
-  style="--color-shadow: rgb(from var(--color-foreground) r g b / {{ shadow_opacity }});"
+  style="--color-shadow: rgb(var(--color-foreground-rgb) / {{ shadow_opacity }});"
 >
   <div class="predictive-search-results__inner">
     {% liquid

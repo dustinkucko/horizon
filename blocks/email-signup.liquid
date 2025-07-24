@@ -1,14 +1,15 @@
 
 
+{% assign block_settings = block.settings %}
 <div
   class="email-signup-block size-style spacing-style"
-  style="{% render 'size-style', settings: block.settings %}{% render 'spacing-style', settings: block.settings %}"
+  style="{% render 'size-style', settings: block_settings %}{% render 'spacing-style', settings: block_settings %}"
   {{ block.shopify_attributes }}
 >
   {%- form 'customer', class: 'email-signup__form spacing-style' %}
     <div
-      class="email-signup__input-group {% if block.settings.inherit_color_scheme == false %}color-{{ block.settings.color_scheme }}{% endif %}"
-      style="--border-width: {{ block.settings.border_width }}px; --border-radius: {{ block.settings.border_radius }}px;"
+      class="email-signup__input-group {% if block_settings.inherit_color_scheme == false %}color-{{ block_settings.color_scheme }}{% endif %}"
+      style="--border-width: {{ block_settings.border_width }}px; --border-radius: {{ block_settings.border_radius }}px;"
     >
       <label
         for="EmailInput-{{ block.id }}"
@@ -18,7 +19,7 @@
       </label>
       <input
         id="EmailInput-{{ block.id }}"
-        class="email-signup__input email-signup__input--{{ block.settings.border_style }} {{ block.settings.input_type_preset }} {{ block.settings.border_variation }}"
+        class="email-signup__input email-signup__input--{{ block_settings.border_style }} {{ block_settings.input_type_preset }} {{ block_settings.border_variation }}"
         type="email"
         name="contact[email]"
         autocorrect="off"
@@ -35,13 +36,13 @@
         {% endif %}
       >
       <button
-        class="email-signup__button {% if block.settings.integrated_button or block.settings.border_style == 'underline' %}email-signup__button--integrated{% endif %} email-signup__button--{{ block.settings.display_type }} {{ block.settings.button_type_preset }} {{ block.settings.style_class }} {{ block.settings.style_class }}--{{ block.id }} {% if block.settings.inherit_color_scheme == false %}color-{{ block.settings.color_scheme }}{% endif %}"
-        {% if block.settings.display_type != 'text' %}
+        class="email-signup__button {% if block_settings.integrated_button or block_settings.border_style == 'underline' %}email-signup__button--integrated{% endif %} email-signup__button--{{ block_settings.display_type }} {{ block_settings.button_type_preset }} {{ block_settings.style_class }} {{ block_settings.style_class }}--{{ block.id }} {% if block_settings.inherit_color_scheme == false %}color-{{ block_settings.color_scheme }}{% endif %}"
+        {% if block_settings.display_type != 'text' %}
           aria-label="{{ 'actions.sign_up' | t }}"
         {% endif %}
       >
-        {% if block.settings.display_type == 'text' %}
-          {{ block.settings.label }}
+        {% if block_settings.display_type == 'text' %}
+          {{ block_settings.label }}
         {% else %}
           <svg
             viewBox="0 0 20 20"
@@ -93,7 +94,7 @@
 
 {% stylesheet %}
   .email-signup-block {
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       width: 100%;
     }
   }
@@ -115,7 +116,7 @@
   }
 
   .email-signup__input-group:not(:has(.email-signup__button--arrow)) {
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       grid-template-columns: 1fr;
     }
   }
@@ -128,11 +129,16 @@
     border-color: var(--color-input-border);
   }
 
+  .email-signup__input.paragraph {
+    color: var(--color-input-text);
+    outline-color: var(--color-input-background);
+  }
+
   .email-signup__button {
     white-space: nowrap;
     padding: 0;
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       width: 100%;
     }
   }
@@ -145,23 +151,25 @@
   .email-signup__input-group .email-signup__input--underline {
     --box-shadow-color: var(--color-input-border);
     --box-shadow-multiplier: 1;
+
     color: var(--color-input-text);
     background-color: transparent;
     padding: 12px 0;
     border: none;
     border-radius: 0;
-    box-shadow: 0px calc(var(--border-width) * var(--box-shadow-multiplier)) 0px var(--box-shadow-color);
+    box-shadow: 0 calc(var(--border-width) * var(--box-shadow-multiplier)) 0 var(--box-shadow-color);
     transition: box-shadow var(--animation-values);
 
     &:focus-visible {
       --box-shadow-multiplier: 1.75;
       --box-shadow-color: var(--color-input-text);
+
       outline: none;
     }
   }
 
   .email-signup__input::placeholder {
-    color: rgb(from var(--color-input-text) r g b / 70%);
+    color: rgb(var(--color-input-text-rgb) / var(--opacity-70));
   }
 
   .email-signup__input-group .email-signup__input--none {
@@ -172,8 +180,21 @@
 
   .email-signup__input:has(+ .email-signup__button--arrow),
   .email-signup__input:has(+ .email-signup__button--integrated) {
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       text-align: left;
+    }
+  }
+
+  .email-signup__button-icon {
+    fill: currentcolor;
+    padding: 5px;
+
+    @media screen and (max-width: 749px) {
+      padding: 0;
+      align-self: center;
+      justify-self: center;
+      width: var(--icon-size-lg);
+      height: var(--icon-size-lg);
     }
   }
 
@@ -188,12 +209,13 @@
 
   .email-signup__button--integrated {
     --button-offset: var(--margin-xs);
+
     position: absolute;
     height: calc(100% - (var(--button-offset) * 2) - (var(--border-width) * 2));
     right: calc(var(--button-offset) + var(--border-width));
     top: calc(var(--button-offset) + var(--border-width));
 
-    @media screen and (width < 750px) {
+    @media screen and (max-width: 749px) {
       width: fit-content;
     }
 
@@ -215,8 +237,9 @@
   }
 
   .email-signup__input--underline + .email-signup__button--integrated {
-    right: 0;
     --button-offset: calc(10% - var(--border-width));
+
+    right: 0;
 
     &.email-signup__button--text.button-unstyled {
       padding: 0;
@@ -245,21 +268,8 @@
   }
 
   .email-signup__button.button-unstyled:hover {
-    color: rgb(from var(--color-input-text) r g b / 70%);
+    color: rgb(var(--color-input-text-rgb) / var(--opacity-70));
     cursor: pointer;
-  }
-
-  .email-signup__button-icon {
-    fill: currentcolor;
-    padding: 5px;
-
-    @media screen and (width < 750px) {
-      padding: 0;
-      align-self: center;
-      justify-self: center;
-      width: var(--icon-size-lg);
-      height: var(--icon-size-lg);
-    }
   }
 
   .email-signup__message {

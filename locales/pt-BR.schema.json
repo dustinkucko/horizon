@@ -95,7 +95,7 @@
     "product_grid_main": "Grade de produtos",
     "product_image": "Imagem do produto",
     "product_information": "Informações do produto",
-    "product_list": "Lista de produtos",
+    "product_list": "Coleção em destaque",
     "product_review_stars": "Estrelas de avaliação",
     "quantity": "Quantidade",
     "row": "Linha",
@@ -151,9 +151,9 @@
     "page_layout": "Layout de página",
     "policy_list": "Links para políticas",
     "prices": "Preços",
-    "products_carousel": "Lista de produtos: Carrossel",
-    "products_editorial": "Lista de produtos: editorial",
-    "products_grid": "Lista de produtos: Grade",
+    "products_carousel": "Coleção em destaque: carrossel",
+    "products_editorial": "Coleção em destaque: editorial",
+    "products_grid": "Coleção em destaque: grade",
     "social_link": "Link de redes sociais",
     "split_showcase": "Dividir mostruário",
     "variant_pickers": "Seletores de variante",
@@ -161,7 +161,9 @@
     "product_title": "Título do produto",
     "large_logo": "Logo grande",
     "product_list_button": "Botão \"Ver tudo\"",
-    "product_inventory": "Estoque de produtos"
+    "product_inventory": "Estoque de produtos",
+    "description": "Descrição",
+    "featured_image": "Imagem em destaque"
   },
   "settings": {
     "alignment": "Alinhamento",
@@ -487,7 +489,12 @@
     "show_inventory_quantity": "Mostrar quantidade de estoque baixo",
     "transition_to_main_product": "Transição do cartão do produto para a página do produto",
     "show_second_image_on_hover": "Exibir segunda imagem ao passar o cursor",
-    "media": "Mídia"
+    "media": "Mídia",
+    "product_card_carousel": "Mostrar carrossel",
+    "media_fit": "Ajuste da mídia",
+    "scroll_speed": "Tempo para o próximo comunicado",
+    "show_powered_by_shopify": "Mostrar \"Powered by Shopify\"",
+    "gift_card_form": "Formulário de cartão-presente"
   },
   "options": {
     "adapt_to_image": "Adaptar à imagem",
@@ -845,7 +852,25 @@
     "text": "Texto",
     "thumbnails": "Miniaturas",
     "visible_if_collection_has_more_products": "Visível se a coleção tiver mais produtos que os mostrados",
-    "app_required_for_ratings": "É necessário um app para classificações de produtos. [Saiba mais](https://help.shopify.com/manual/apps)"
+    "app_required_for_ratings": "É necessário um app para classificações de produtos. [Saiba mais](https://help.shopify.com/manual/apps)",
+    "icon": "Ícone",
+    "manage_store_name": "[Gerenciar nome da loja](/admin/settings/general?edit=storeName)",
+    "resource_reference_collection_card": "Exibe a coleção da seção principal",
+    "resource_reference_collection_card_image": "Exibe a imagem da coleção principal",
+    "resource_reference_collection_title": "Exibe o título da coleção principal",
+    "resource_reference_product": "Conecta-se automaticamente ao produto principal",
+    "resource_reference_product_card": "Exibe o produto da seção principal",
+    "resource_reference_product_inventory": "Exibe o estoque do produto principal",
+    "resource_reference_product_price": "Exibe o preço do produto principal",
+    "resource_reference_product_recommendations": "Exibe recomendações com base no produto principal",
+    "resource_reference_product_review": "Exibe avaliações do produto principal",
+    "resource_reference_product_swatches": "Exibe amostras do produto principal",
+    "resource_reference_product_title": "Exibe o título do produto principal",
+    "resource_reference_product_variant_picker": "Exibe variantes do produto principal",
+    "resource_reference_product_media": "Exibe a mídia do produto principal",
+    "product_media": "Mídias do produto",
+    "section_link": "Link da seção",
+    "gift_card_form_description": "Os clientes podem enviar cartões-presente para o e-mail do destinatário com uma mensagem pessoal. [Saiba mais](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>Compartilhe informações sobre a marca com clientes. Descreva um produto, faça comunicados ou dê as boas-vindas aos clientes na loja.</p>"
@@ -896,7 +921,7 @@
     "layout": "Layout",
     "links": "Links",
     "product": "Produto",
-    "product_list": "Lista de produtos",
+    "product_list": "Coleção em destaque",
     "banners": "Banners",
     "collections": "Coleções",
     "custom": "Personalizado",

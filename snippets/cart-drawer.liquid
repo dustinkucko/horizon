@@ -11,6 +11,7 @@
 <script
   src="{{ 'cart-drawer.js' | asset_url }}"
   type="module"
+  fetchpriority="low"
 ></script>
 
 <cart-drawer-component
@@ -43,7 +44,7 @@
             <button
               ref="closeButton"
               on:click="cart-drawer-component/close"
-              class="button cart-drawer__close-button button-unstyled"
+              class="button close-button cart-drawer__close-button button-unstyled"
               aria-label="{{ 'actions.close_dialog' | t }}"
             >
               <span class="svg-wrapper">
@@ -77,7 +78,7 @@
             <button
               ref="closeButton"
               on:click="cart-drawer-component/close"
-              class="button cart-drawer__close-button button-unstyled"
+              class="button close-button cart-drawer__close-button button-unstyled"
               aria-label="{{ 'actions.close_dialog' | t }}"
             >
               <span class="svg-wrapper">
@@ -141,7 +142,7 @@
     top: 0;
     z-index: 1;
 
-    @media screen and (width >= 750px) {
+    @media screen and (min-width: 750px) {
       padding: var(--cart-drawer-padding-desktop);
     }
   }

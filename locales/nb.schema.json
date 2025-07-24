@@ -42,8 +42,8 @@
     "contact_form": "Kontaktskjema",
     "featured_product": "Produkthøydepunkter",
     "icons_with_text": "Ikoner med tekst",
-    "products_carousel": "Produktliste: Karusell",
-    "products_grid": "Produktliste: Rutenett",
+    "products_carousel": "Utvalgt kolleksjon: Karusell",
+    "products_grid": "Utvalgt kolleksjon: Rutenett",
     "jumbo_text": "Jumbotekst",
     "accelerated_checkout": "Hurtigkasse",
     "accordion": "Trekkspill",
@@ -98,7 +98,7 @@
     "product_grid_main": "Produktrutenett",
     "product_image": "Produktbilde",
     "product_information": "Produktinformasjon",
-    "product_list": "Produktliste",
+    "product_list": "Utvalgt kolleksjon",
     "product_review_stars": "Stjerner i anmeldelse",
     "quantity": "Antall",
     "row": "Rad",
@@ -153,7 +153,7 @@
     "page_layout": "Sidelayout",
     "policy_list": "Koblinger til retningslinjer",
     "prices": "Priser",
-    "products_editorial": "Produktliste: Redaksjonell",
+    "products_editorial": "Utvalgt kolleksjon: Redaksjonell",
     "social_link": "Kobling til sosiale medier",
     "split_showcase": "Split-presentasjon",
     "variant_pickers": "Variantvelgere",
@@ -161,7 +161,9 @@
     "product_title": "Produkttittel",
     "large_logo": "Stor logo",
     "product_list_button": "«Vis alle»-knappen",
-    "product_inventory": "Produktlager"
+    "product_inventory": "Produktlager",
+    "description": "Beskrivelse",
+    "featured_image": "Fremhevet bilde"
   },
   "settings": {
     "alignment": "Justering",
@@ -487,7 +489,12 @@
     "show_inventory_quantity": "Vis lav lagerbeholdning",
     "transition_to_main_product": "Overgang fra produktkort til produktside",
     "show_second_image_on_hover": "Vis sekundærbilde når musepekeren beveges over",
-    "media": "Medier"
+    "media": "Medier",
+    "product_card_carousel": "Vis karusell",
+    "media_fit": "Mediepassform",
+    "scroll_speed": "Rull til neste kunngjøring",
+    "show_powered_by_shopify": "Vis \"Powered by Shopify\"",
+    "gift_card_form": "Gavekortskjema"
   },
   "options": {
     "adapt_to_image": "Tilpass til bilde",
@@ -845,7 +852,25 @@
     "thumbnails": "Miniatyrbilder",
     "visibility": "Synlighet",
     "visible_if_collection_has_more_products": "Synlig hvis samlingen har flere produkter enn det som vises",
-    "app_required_for_ratings": "En app kreves for produktanmeldelser. [Finn ut mer](https://help.shopify.com/manual/apps)"
+    "app_required_for_ratings": "En app kreves for produktanmeldelser. [Finn ut mer](https://help.shopify.com/manual/apps)",
+    "icon": "Ikon",
+    "manage_store_name": "[Administrer butikknavnet](/admin/settings/general?edit=storeName)",
+    "resource_reference_collection_card": "Viser samling fra overordnet seksjon",
+    "resource_reference_collection_card_image": "Viser bilde fra overordnet samling",
+    "resource_reference_collection_title": "Viser tittel fra overordnet samling",
+    "resource_reference_product": "Kobler automatisk til overordnet produkt",
+    "resource_reference_product_card": "Viser produkt fra overordnet seksjon",
+    "resource_reference_product_inventory": "Viser lagerbeholdning fra overordnet produkt",
+    "resource_reference_product_price": "Viser pris fra overordnet produkt",
+    "resource_reference_product_recommendations": "Viser anbefalinger basert på overordnet produkt",
+    "resource_reference_product_review": "Viser anmeldelser fra overordnet produkt",
+    "resource_reference_product_swatches": "Viser fargekart fra overordnet produkt",
+    "resource_reference_product_title": "Viser tittel fra overordnet produkt",
+    "resource_reference_product_variant_picker": "Viser varianter fra overordnet produkt",
+    "resource_reference_product_media": "Viser medier fra overordnet produkt",
+    "product_media": "Produktmedier",
+    "section_link": "Seksjonslenke",
+    "gift_card_form_description": "Kunder kan sende gavekort til mottakerens e-post med en personlig melding. [Finn ut mer](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>Del informasjon om merkevaren din med kundene. Beskriv et produkt, gjør kunngjøringer eller ønsk kundene velkommen til butikken.</p>"
@@ -887,7 +912,7 @@
     "hover_effects": "Gjelder produkt- og samlingskort"
   },
   "categories": {
-    "product_list": "Produktliste",
+    "product_list": "Utvalgt kolleksjon",
     "basic": "Basic",
     "collection": "Samling",
     "collection_list": "Liste over samlinger",
