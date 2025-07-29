@@ -118,11 +118,11 @@
     "utilities": "สาธารณูปโภค",
     "video_section": "วิดีโอ",
     "alternating_content_rows": "แถวสลับสี",
-    "products_carousel": "รายการสินค้า: ภาพสไลด์",
-    "products_grid": "รายการสินค้า: กริด",
+    "products_carousel": "คอลเลกชันแนะนำ: ภาพสไลด์",
+    "products_grid": "คอลเลกชันแนะนำ: กริด",
     "spacer": "ตัวเว้นวรรค",
     "jumbo_text": "ข้อความขนาดใหญ่มาก",
-    "product_list": "รายการสินค้า",
+    "product_list": "คอลเลกชันแนะนำ",
     "search_input": "ค้นหาอินพุต",
     "search_results": "ผลลัพธ์การค้นหา",
     "read_only": "อ่านอย่างเดียว",
@@ -155,14 +155,15 @@
     "policy_list": "ลิงก์นโยบาย",
     "prices": "ราคา",
     "product_list_button": "ดูปุ่มทั้งหมด",
-    "products_editorial": "รายการสินค้า: นิตยสาร",
+    "products_editorial": "คอลเลกชันแนะนำ: นิตยสาร",
     "product_inventory": "สินค้าคงคลัง",
     "social_link": "ลิงก์โซเชียลมีเดีย",
     "split_showcase": "การแสดงผลแบบแบ่งส่วน",
     "variant_pickers": "รายการตัวเลือกสินค้า",
     "pills": "ทรงเม็ดยา",
     "large_logo": "โลโก้ขนาดใหญ่",
-    "description": "คำอธิบาย"
+    "description": "คำอธิบาย",
+    "featured_image": "รูปภาพที่แสดง"
   },
   "settings": {
     "alignment": "การจัดแนว",
@@ -490,8 +491,10 @@
     "show_second_image_on_hover": "แสดงรูปภาพที่สองเมื่อนำเมาส์ไปวาง",
     "media": "สื่อ",
     "product_card_carousel": "แสดงภาพสไลด์",
-    "hide_resource_setting": "ซ่อนการตั้งค่าแหล่งข้อมูล",
-    "media_fit": "การปรับสื่อ"
+    "media_fit": "ปรับขนาดสื่อให้พอดี",
+    "scroll_speed": "ระยะเวลาจนถึงการประกาศครั้งถัดไป",
+    "show_powered_by_shopify": "แสดง \"Powered by Shopify\"",
+    "gift_card_form": "แบบฟอร์มบัตรของขวัญ"
   },
   "options": {
     "adapt_to_image": "ปรับตามรูปภาพ",
@@ -866,7 +869,8 @@
     "resource_reference_product_variant_picker": "แสดงตัวเลือกสินค้าจากสินค้าหลัก",
     "product_media": "สื่อประกอบสินค้า",
     "resource_reference_product_media": "แสดงสื่อจากสินค้าหลัก",
-    "section_link": "ลิงก์ไปยังส่วน"
+    "section_link": "ลิงก์ไปยังส่วน",
+    "gift_card_form_description": "ลูกค้าสามารถส่งบัตรของขวัญไปยังอีเมลของผู้รับพร้อมข้อความส่วนตัวได้ [ดูข้อมูลเพิ่มเติม](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>แชร์ข้อมูลเกี่ยวกับแบรนด์ของคุณให้ลูกค้าทราบ โดยอธิบายคุณสมบัติของสินค้า แชร์ประกาศ หรือกล่าวต้อนรับลูกค้าสู่ร้านค้าของคุณ</p>"
@@ -917,7 +921,7 @@
     "layout": "เลย์เอาต์",
     "links": "ลิงก์",
     "product": "สินค้า",
-    "product_list": "รายการสินค้า",
+    "product_list": "คอลเลกชันแนะนำ",
     "banners": "แบนเนอร์",
     "collections": "คอลเลกชัน",
     "custom": "กำหนดเอง",

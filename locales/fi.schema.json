@@ -95,7 +95,7 @@
     "product_grid_main": "Tuoteruudukko",
     "product_image": "Tuotekuva",
     "product_information": "Tuotetiedot",
-    "product_list": "Tuoteluettelo",
+    "product_list": "Esittelykokoelma",
     "product_review_stars": "Arvion tähdet",
     "quantity": "Määrä",
     "row": "Rivi",
@@ -152,9 +152,9 @@
     "policy_list": "Käytäntöjen linkit",
     "prices": "Hinnat",
     "product_list_button": "Näytä kaikki ‑painike",
-    "products_carousel": "Tuoteluettelo: karuselli",
-    "products_editorial": "Tuoteluettelo: editoriaali",
-    "products_grid": "Tuoteluettelo: ruudukko",
+    "products_carousel": "Esittelykokoelma: karuselli",
+    "products_editorial": "Esittelykokoelma: editoriaali",
+    "products_grid": "Esittelykokoelma: ruudukko",
     "product_inventory": "Tuotevarasto",
     "social_link": "Sosiaalisen median linkki",
     "split_showcase": "Jaettu esittely",
@@ -162,7 +162,8 @@
     "pills": "Pillerikuvakkeet",
     "product_title": "Tuotteen nimi",
     "large_logo": "Suuri logo",
-    "description": "Kuvaus"
+    "description": "Kuvaus",
+    "featured_image": "Esittelykuva"
   },
   "settings": {
     "alignment": "Tasaus",
@@ -490,7 +491,10 @@
     "media": "Media",
     "product_card_carousel": "Näytä karuselli",
     "show_second_image_on_hover": "Näytä toinen kuva osoitettaessa",
-    "media_fit": "Median sovitus"
+    "media_fit": "Median sovitus",
+    "scroll_speed": "Aikaa seuraavaan ilmoitukseen",
+    "show_powered_by_shopify": "Näytä Powered by Shopify",
+    "gift_card_form": "Lahjakorttilomake"
   },
   "options": {
     "adapt_to_image": "Sovita kuvaan",
@@ -837,7 +841,6 @@
     "carousel": "Karuselli",
     "colors": "Värit",
     "collection_page": "Kokoelmasivu",
-    "copyright_info": "Lisätietoja [tekijänoikeusilmoituksen muokkaamisesta](https://help.shopify.com/manual/online-store/themes/customizing-themes/remove-powered-by-shopify-message)",
     "customer_account": "Asiakastili",
     "edit_empty_state_collection_in_theme_settings": "Muokkaa tyhjän tilan kokoelmaa kohdassa [teema-asetukset](/editor?context=theme&category=search)",
     "grid_layout": "Ruudukkoasettelu",
@@ -865,7 +868,8 @@
     "resource_reference_product_variant_picker": "Esittää ylätason tuotteen versioita",
     "resource_reference_product_media": "Näyttää mediaa ylätason tuotteesta",
     "product_media": "Tuotemediat",
-    "section_link": "Osiolinkki"
+    "section_link": "Osiolinkki",
+    "gift_card_form_description": "Asiakkaat voivat lähettää lahjakortteja vastaanottajille sähköpostitse henkilökohtaisen viestin kera. [Lue lisää](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>Kerro brändiäsi koskevia tietoja asiakkaillesi. Kuvaile tuotetta, jaa ilmoituksia tai toivota asiakkaat tervetulleiksi kauppaasi.</p>"
@@ -916,7 +920,7 @@
     "layout": "Pohja",
     "links": "Linkit",
     "product": "Tuote",
-    "product_list": "Tuoteluettelo",
+    "product_list": "Esittelykokoelma",
     "banners": "Bannerit",
     "collections": "Kokoelmat",
     "custom": "Mukautettu",

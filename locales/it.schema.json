@@ -42,9 +42,9 @@
     "contact_form": "Modulo di contatto",
     "featured_product": "Prodotti in evidenza",
     "icons_with_text": "Icone con testo",
-    "products_carousel": "Elenco dei prodotti: carosello",
-    "products_grid": "Elenco dei prodotti: griglia",
-    "product_list": "Elenco dei prodotti",
+    "products_carousel": "Collezione in evidenza: Carosello",
+    "products_grid": "Collezione in evidenza: Griglia",
+    "product_list": "Collezione in evidenza",
     "spacer": "Spaziatore",
     "accelerated_checkout": "Check-out veloce",
     "accordion": "Accordion",
@@ -155,14 +155,15 @@
     "policy_list": "Link alle informative",
     "prices": "Prezzi",
     "product_list_button": "Pulsante Visualizza tutto",
-    "products_editorial": "Elenco dei prodotti: editoriale",
+    "products_editorial": "Collezione in evidenza: Editoriale",
     "social_link": "Link ai social",
     "split_showcase": "Split Showcase",
     "variant_pickers": "Selettori di varianti",
     "pills": "A pillole",
     "large_logo": "Logo grande",
     "product_inventory": "Scorte prodotti",
-    "description": "Descrizione"
+    "description": "Descrizione",
+    "featured_image": "Immagine in evidenza"
   },
   "settings": {
     "alignment": "Allineamento",
@@ -490,7 +491,10 @@
     "show_second_image_on_hover": "Mostra seconda immagine al passaggio del mouse",
     "media": "Contenuti multimediali",
     "product_card_carousel": "Mostra carosello",
-    "media_fit": "Adattamento dei media"
+    "media_fit": "Adattamento dei contenuti multimediali",
+    "scroll_speed": "Scorri al prossimo annuncio",
+    "show_powered_by_shopify": "Mostrare la frase \"Powered by Shopify\".",
+    "gift_card_form": "Modulo buono regalo"
   },
   "options": {
     "adapt_to_image": "Adatta a immagine",
@@ -836,7 +840,6 @@
     "carousel": "Carosello",
     "colors": "Colori",
     "collection_page": "Pagina di collezione",
-    "copyright_info": "Scopri come [modificare l'informativa sul copyright](https://help.shopify.com/manual/online-store/themes/customizing-themes/remove-powered-by-shopify-message)",
     "customer_account": "Account cliente",
     "edit_empty_state_collection_in_theme_settings": "Modifica collezione con stato vuoto in [impostazioni del tema](/editor?context=theme&category=search)",
     "grid_layout": "Layout a griglia",
@@ -865,7 +868,8 @@
     "resource_reference_product_variant_picker": "Visualizza le varianti dal prodotto padre",
     "resource_reference_product_media": "Visualizza i contenuti multimediali dal prodotto padre",
     "product_media": "Contenuti multimediali prodotto",
-    "section_link": "Link alla sezione"
+    "section_link": "Link alla sezione",
+    "gift_card_form_description": "I clienti possono inviare buoni regalo all'indirizzo email del destinatario con un messaggio personale. [Maggiori informazioni](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>Condividi informazioni sul tuo brand con i clienti. Descrivi un prodotto, condividi gli annunci o dai il benvenuto ai clienti nel tuo negozio.</p>"
@@ -907,7 +911,7 @@
     "hover_effects": "Si applica alle schede di prodotti e collezioni"
   },
   "categories": {
-    "product_list": "Elenco dei prodotti",
+    "product_list": "Collezione in evidenza",
     "basic": "Base",
     "collection": "Collezione",
     "collection_list": "Elenco delle collezioni",
