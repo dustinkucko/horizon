@@ -118,7 +118,7 @@
     "faq_section": "Ofte stillede spørgsmål",
     "hero": "Hero",
     "jumbo_text": "Jumbotekst",
-    "product_list": "Produktliste",
+    "product_list": "Fremhævet kollektion",
     "spacer": "Afstandsstykke",
     "video_section": "Video",
     "product_title": "Produkttitel",
@@ -152,9 +152,9 @@
     "policy_list": "Links til politikker",
     "prices": "Priser",
     "product_list_button": "Knappen Se alle",
-    "products_carousel": "Produktliste: Karrusel",
-    "products_editorial": "Produktliste: redaktionel",
-    "products_grid": "Produktliste: Gitter",
+    "products_carousel": "Fremhævet kollektion: Karrusel",
+    "products_editorial": "Fremhævet kollektion: Redaktionel",
+    "products_grid": "Fremhævet kollektion: Gitter",
     "social_link": "SoMe-link",
     "split_showcase": "Opdel udstilling",
     "variant_pickers": "Variantvælgere",
@@ -162,7 +162,8 @@
     "pills": "Etiketter",
     "large_logo": "Stort logo",
     "product_inventory": "Produktlager",
-    "description": "Beskrivelse"
+    "description": "Beskrivelse",
+    "featured_image": "Udvalgt billede"
   },
   "settings": {
     "alignment": "Justering",
@@ -490,7 +491,10 @@
     "show_second_image_on_hover": "Vis sekundært billede, når der peges",
     "media": "Medie",
     "product_card_carousel": "Vis karrusel",
-    "media_fit": "Medietilpasning"
+    "media_fit": "Medietilpasning",
+    "scroll_speed": "Tid til næste meddelelse",
+    "show_powered_by_shopify": "Vis \"Powered by Shopify\"",
+    "gift_card_form": "Gavekortformular"
   },
   "options": {
     "adapt_to_image": "Tilpas til billede",
@@ -865,7 +869,8 @@
     "resource_reference_product_variant_picker": "Viser varianter fra overordnet produkt",
     "resource_reference_product_media": "Viser medie fra overordnet produkt",
     "product_media": "Produktmedier",
-    "section_link": "Afsnitslink"
+    "section_link": "Afsnitslink",
+    "gift_card_form_description": "Kunder kan sende gavekort til en modtagers mailadresse med en personlig besked. [Få mere at vide](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>Del oplysninger om dit brand med dine kunder. Beskriv et produkt, del meddelelser, eller byd velkommen til din butik.</p>"
@@ -916,7 +921,7 @@
     "layout": "Layout",
     "links": "Links",
     "product": "Produkt",
-    "product_list": "Produktliste",
+    "product_list": "Fremhævet kollektion",
     "banners": "Bannere",
     "collections": "Kollektioner",
     "custom": "Tilpasset",

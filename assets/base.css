@@ -9,6 +9,7 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100svh;
+  font-variation-settings: 'slnt' 0;
 }
 
 :root {
@@ -29,6 +30,10 @@ html {
 
 html[scroll-lock] {
   overflow: hidden;
+}
+
+[popover]:not(:popover-open, dialog[open]) {
+  display: none;
 }
 
 img,
@@ -511,6 +516,10 @@ p:empty {
   }
 }
 
+.contents {
+  display: contents;
+}
+
 .flex {
   display: flex;
   gap: var(--gap-md);
@@ -604,6 +613,10 @@ p:empty {
 
 .text-inherit {
   color: inherit;
+}
+
+.user-select-text {
+  user-select: text;
 }
 
 .justify-left {
@@ -725,6 +738,16 @@ body,
   color: var(--color, var(--color-foreground));
 }
 
+/* Ensure inputs with type presets maintain minimum 16px on mobile to prevent iOS zoom */
+@media screen and (max-width: 1200px) {
+  input.paragraph.paragraph,
+  input.paragraph.paragraph:not([type]),
+  textarea.paragraph.paragraph,
+  select.paragraph.paragraph {
+    font-size: max(1rem, var(--font-paragraph--size));
+  }
+}
+
 .paragraph > small {
   font-size: smaller;
 }
@@ -744,6 +767,14 @@ h1,
   color: var(--color, var(--font-h1-color));
 }
 
+@media screen and (max-width: 1200px) {
+  input.h1.h1,
+  textarea.h1.h1,
+  select.h1.h1 {
+    font-size: max(1rem, var(--font-h1--size));
+  }
+}
+
 h2,
 .h2.h2,
 .text-block.h2 > * {
@@ -755,6 +786,14 @@ h2,
   letter-spacing: var(--font-h2--letter-spacing);
   text-transform: var(--font-h2--case);
   color: var(--color, var(--font-h2-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h2.h2,
+  textarea.h2.h2,
+  select.h2.h2 {
+    font-size: max(1rem, var(--font-h2--size));
+  }
 }
 
 h3,
@@ -771,6 +810,14 @@ h3,
   color: var(--color, var(--font-h3-color));
 }
 
+@media screen and (max-width: 1200px) {
+  input.h3,
+  textarea.h3,
+  select.h3 {
+    font-size: max(1rem, var(--font-h3--size));
+  }
+}
+
 h4,
 .h4.h4,
 .text-block.h4 > * {
@@ -782,6 +829,14 @@ h4,
   letter-spacing: var(--font-h4--letter-spacing);
   text-transform: var(--font-h4--case);
   color: var(--color, var(--font-h4-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h4.h4,
+  textarea.h4.h4,
+  select.h4.h4 {
+    font-size: max(1rem, var(--font-h4--size));
+  }
 }
 
 h5,
@@ -797,6 +852,14 @@ h5,
   color: var(--color, var(--font-h5-color));
 }
 
+@media screen and (max-width: 1200px) {
+  input.h5.h5,
+  textarea.h5.h5,
+  select.h5.h5 {
+    font-size: max(1rem, var(--font-h5--size));
+  }
+}
+
 h6,
 .h6.h6,
 .text-block.h6 > * {
@@ -808,6 +871,14 @@ h6,
   letter-spacing: var(--font-h6--letter-spacing);
   text-transform: var(--font-h6--case);
   color: var(--color, var(--font-h6-color));
+}
+
+@media screen and (max-width: 1200px) {
+  input.h6.h6,
+  textarea.h6.h6,
+  select.h6.h6 {
+    font-size: max(1rem, var(--font-h6--size));
+  }
 }
 
 :first-child:is(.h1, .h2, .h3, .h4, .h5, .h6) {
@@ -1474,6 +1545,11 @@ media-gallery:where(.media-gallery--grid) .media-gallery__grid {
   display: none;
 }
 
+media-gallery.media-gallery--grid .media-gallery__grid .product-media-container {
+  /* Needed for safari to stretch to full grid height */
+  height: 100%;
+}
+
 .product-media :is(deferred-media, product-model) {
   position: absolute;
 }
@@ -1540,6 +1616,11 @@ media-gallery:where(.media-gallery--grid) .media-gallery__grid {
   height: 100%;
   z-index: var(--layer-flat);
   cursor: zoom-in;
+  background-color: transparent;
+
+  &:hover {
+    background-color: transparent;
+  }
 }
 
 zoom-dialog dialog {
@@ -1580,9 +1661,32 @@ zoom-dialog dialog {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  animation: elementSlideInBottom var(--animation-speed) var(--animation-easing) forwards;
-  animation-delay: calc(var(--animation-speed) * 2);
+
+  /* For the outline radius */
+  border-radius: 50%;
+}
+
+/* This triggers iOS < 16.4. The outline bug is not recognized as a lack of @supports */
+
+@supports not (background-color: rgb(from red 150 g b / alpha)) {
+  /**
+    There is a bug in safari < 16.4 that causes the outline to not follow the elements border radius. This is a workaround.
+    Using element selector to increase specificity.
+  **/
+
+  .close-button:focus-visible {
+    outline: none;
+    overflow: visible;
+  }
+
+  .close-button:focus-visible::after {
+    content: '';
+    position: absolute;
+    inset: calc(-1 * var(--focus-outline-offset));
+    border: var(--focus-outline-width) solid currentColor;
+    border-radius: 50%;
+    display: inherit;
+  }
 }
 
 .dialog--closed .close-button {
@@ -1660,8 +1764,8 @@ zoom-dialog dialog {
 }
 
 .close-button svg {
-  width: 20px;
-  height: 20px;
+  width: var(--icon-size-xs);
+  height: var(--icon-size-xs);
 }
 
 /* Product media */
@@ -1979,19 +2083,23 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 
 .unit-price {
   display: block;
-  font-size: 0.85em;
+  font-size: min(0.85em, var(--font-paragraph--size));
   color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+}
+
+.tax-note.tax-note.tax-note {
+  font-size: min(0.85em, var(--font-paragraph--size));
+  color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+}
+
+product-price.text-block:is(.h1, .h2, .h3, .h4, .h5, .h6) > *:not(.tax-note) {
+  margin-block: 0;
 }
 
 .compare-at-price {
   opacity: 0.4;
   text-decoration-line: line-through;
   text-decoration-thickness: 1.5px;
-}
-
-.tax-note,
-.unit-price {
-  color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
 }
 
 .card-gallery {
@@ -2238,6 +2346,7 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
   color: var(--color-input-text);
   border: none;
   outline: none;
+  font-size: var(--font-paragraph--size);
 
   &:autofill {
     background-color: var(--color-input-background);
@@ -3134,6 +3243,10 @@ slideshow-slide {
   }
 }
 
+slideshow-slide.product-media-container--tallest {
+  content-visibility: visible;
+}
+
 @media screen and (max-width: 749px) {
   /* Media gallery has a peeking slide on the right side always, and on the left side when the current slide is the last one */
   .media-gallery--hint
@@ -3485,6 +3598,25 @@ slideshow-component[autoplay] slideshow-controls {
   }
 }
 
+/* Slideshow control shape styles */
+.button-unstyled.slideshow-control.slideshow-control--shape-square,
+.button-unstyled.slideshow-control.slideshow-control--shape-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-primary-button-background);
+  color: var(--color-primary-button-text);
+}
+
+.button-unstyled.slideshow-control.slideshow-control--shape-circle {
+  border-radius: 50%;
+}
+
+.button-unstyled.slideshow-control.slideshow-control--shape-square {
+  border-radius: 0;
+}
+
 .slideshow-control .icon-caret {
   rotate: -90deg;
 }
@@ -3605,6 +3737,11 @@ slideshow-arrows {
     justify-content: space-between;
     align-items: center;
   }
+}
+
+slideshow-arrows:has(.slideshow-control--shape-square),
+slideshow-arrows:has(.slideshow-control--shape-circle) {
+  mix-blend-mode: normal;
 }
 
 slideshow-component[disabled='true'] slideshow-arrows {
@@ -4089,12 +4226,6 @@ text-component {
   }
 }
 
-/* These are sections with placeholders that we don't want to have appear on the storefront when empty */
-.shopify-section:has(.in-onboarding-state) {
-  /* stylelint-disable-next-line declaration-no-important */
-  display: none !important;
-}
-
 .product-card:hover,
 .collection-card:hover,
 .resource-card:hover,
@@ -4115,4 +4246,35 @@ text-component {
   z-index: auto;
   transform: none;
   box-shadow: none;
+}
+
+/* Prevent iOS zoom on input focus by ensuring minimum 16px font size on mobile */
+@media screen and (max-width: 1200px) {
+  input,
+  textarea,
+  select,
+  /* Higher specificity to override type preset classes like .paragraph, .h1, etc. */
+  .paragraph.paragraph input,
+  .paragraph.paragraph textarea,
+  .paragraph.paragraph select,
+  .h1.h1 input,
+  .h1.h1 textarea,
+  .h1.h1 select,
+  .h2.h2 input,
+  .h2.h2 textarea,
+  .h2.h2 select,
+  .h3.h3 input,
+  .h3.h3 textarea,
+  .h3.h3 select,
+  .h4.h4 input,
+  .h4.h4 textarea,
+  .h4.h4 select,
+  .h5.h5 input,
+  .h5.h5 textarea,
+  .h5.h5 select,
+  .h6.h6 input,
+  .h6.h6 textarea,
+  .h6.h6 select {
+    font-size: max(1rem, 100%);
+  }
 }

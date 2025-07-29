@@ -38,7 +38,7 @@
     "inputs": "Entradas",
     "marquee": "Marquesina",
     "alternating_content_rows": "Filas alternantes",
-    "product_list": "Lista de productos",
+    "product_list": "Colección destacada",
     "spacer": "Separador",
     "pull_quote": "Cita destacada",
     "contact_form": "Formulario de contacto",
@@ -150,9 +150,9 @@
     "page_layout": "Diseño de página",
     "policy_list": "Enlaces a la política",
     "prices": "Precios",
-    "products_carousel": "Lista de productos: carrusel",
-    "products_editorial": "Lista de productos: Editorial",
-    "products_grid": "Lista de productos: cuadrícula",
+    "products_carousel": "Colección destacada: Carrusel",
+    "products_editorial": "Colección destacada: Editorial",
+    "products_grid": "Colección destacada: Cuadrícula",
     "social_link": "Enlace a redes sociales",
     "split_showcase": "Dividir presentación",
     "variant_pickers": "Selectores de variante",
@@ -162,7 +162,8 @@
     "product_list_button": "Botón Ver todo",
     "product_inventory": "Inventario de productos",
     "pills": "Cápsulas",
-    "description": "Descripción"
+    "description": "Descripción",
+    "featured_image": "Imagen destacada"
   },
   "settings": {
     "alignment": "Alineación",
@@ -490,7 +491,10 @@
     "show_second_image_on_hover": "Mostrar segunda imagen al pasar el cursor",
     "media": "Elementos multimedia",
     "product_card_carousel": "Mostrar carrusel",
-    "media_fit": "Ajuste de medios"
+    "media_fit": "Ajuste de elemento multimedia",
+    "scroll_speed": "Desplazarse al siguiente anuncio",
+    "show_powered_by_shopify": "Mostrar \"Con tecnología de Shopify\"",
+    "gift_card_form": "Formulario de tarjeta de regalo"
   },
   "options": {
     "adapt_to_image": "Adaptar a la imagen",
@@ -865,7 +869,8 @@
     "resource_reference_product_variant_picker": "Muestra variantes del producto principal",
     "resource_reference_product_media": "Muestra multimedia del producto principal",
     "product_media": "Elementos multimedia del producto",
-    "section_link": "Enlace de la sección"
+    "section_link": "Enlace de la sección",
+    "gift_card_form_description": "Los clientes pueden enviar tarjetas de regalo al correo electrónico del destinatario junto con un mensaje personal. [Más información](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>Comparte información sobre tu marca con los clientes. Describe un producto, comparte anuncios o da la bienvenida a los clientes a tu tienda.</p>"
@@ -916,7 +921,7 @@
     "layout": "Diseño",
     "links": "Enlaces",
     "product": "Producto",
-    "product_list": "Lista de productos",
+    "product_list": "Colección destacada",
     "banners": "Banners",
     "collections": "Colecciones",
     "custom": "Personalizar",

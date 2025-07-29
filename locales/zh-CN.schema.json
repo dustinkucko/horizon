@@ -41,7 +41,7 @@
     "contact_form": "联系表",
     "featured_product": "产品亮点",
     "icons_with_text": "带文本的图标",
-    "product_list": "产品列表",
+    "product_list": "精选系列",
     "spacer": "分隔区",
     "alternating_content_rows": "交替行",
     "accelerated_checkout": "快捷结账",
@@ -153,16 +153,17 @@
     "policy_list": "政策链接",
     "prices": "价格",
     "product_list_button": "查看全部按钮",
-    "products_carousel": "产品列表：轮播",
-    "products_editorial": "产品列表：编辑",
-    "products_grid": "产品列表：网格",
+    "products_carousel": "精选系列：轮播",
+    "products_editorial": "精选系列：编辑",
+    "products_grid": "精选系列：网格",
     "product_inventory": "产品库存",
     "social_link": "社交媒体链接",
     "split_showcase": "拆分展示",
     "variant_pickers": "多属性选择器",
     "pills": "椭圆形框",
     "large_logo": "大 logo",
-    "description": "描述"
+    "description": "描述",
+    "featured_image": "配图"
   },
   "settings": {
     "alignment": "对齐方式",
@@ -490,7 +491,10 @@
     "show_second_image_on_hover": "在悬停时显示第二张图片",
     "media": "媒体文件",
     "product_card_carousel": "显示轮播",
-    "media_fit": "媒体适配"
+    "media_fit": "媒体文件适应",
+    "scroll_speed": "下次公告时间",
+    "show_powered_by_shopify": "显示\"由 Shopify 提供技术支持\"",
+    "gift_card_form": "礼品卡"
   },
   "options": {
     "adapt_to_image": "适应图片",
@@ -865,7 +869,8 @@
     "resource_reference_product_variant_picker": "显示父产品的多属性",
     "resource_reference_product_media": "显示父产品的媒体文件",
     "product_media": "产品媒体文件",
-    "section_link": "分区链接"
+    "section_link": "分区链接",
+    "gift_card_form_description": "客户可通过私人消息将礼品卡发送至收件人电子邮件。[详细了解](https://help.shopify.com/manual/products/gift-card-products)"
   },
   "html_defaults": {
     "share_information_about_your": "<p>与客户分享有关您品牌的信息。描述产品、发布公告或欢迎客户访问您的商店。</p>"
@@ -916,7 +921,7 @@
     "layout": "布局",
     "links": "链接",
     "product": "产品",
-    "product_list": "产品列表",
+    "product_list": "精选系列",
     "banners": "条幅",
     "collections": "产品系列",
     "custom": "自定义",

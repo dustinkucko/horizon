@@ -1,9 +1,7 @@
-import { onAnimationEnd } from '@theme/utilities';
-
 // Create a new custom element for product links with images for transitions to PDP
 class ProductCardLink extends HTMLElement {
   connectedCallback() {
-    this.addEventListener('click', (event) => setTimeout(() => this.#handleClick(event), 0));
+    this.addEventListener('click', this.#handleClick);
   }
 
   disconnectedCallback() {
@@ -23,8 +21,14 @@ class ProductCardLink extends HTMLElement {
    * @param {Event} event
    */
   #handleClick = (event) => {
-    // If the event has been prevented, don't do anything, another component is handling the click or if it's an input (swatches)
-    if (event.defaultPrevented || event.target instanceof HTMLInputElement) return;
+    // If the event has been prevented, don't do anything, another component is handling the click
+    if (event.defaultPrevented) return;
+
+    // If the event was on an interactive element, don't do anything, this is not a navigation
+    if (event.target instanceof Element) {
+      const interactiveElement = event.target.closest('button, input, label, select, [tabindex="1"]');
+      if (interactiveElement) return;
+    }
 
     const gallery = this.querySelector('[data-view-transition-to-main-product]');
     if (!this.productTransitionEnabled || !(gallery instanceof HTMLElement)) return;
@@ -45,7 +49,14 @@ class ProductCardLink extends HTMLElement {
    * @param {HTMLImageElement} image
    */
   #setImageSrcset(image) {
-    if (this.featuredMediaUrl && !image.srcset.includes(this.featuredMediaUrl)) {
+    if (!this.featuredMediaUrl) return;
+
+    const currentImageUrl = new URL(image.currentSrc);
+
+    // Deliberately not using origin, as it includes the protocol, which is usually skipped for featured media
+    const currentImageRawUrl = currentImageUrl.host + currentImageUrl.pathname;
+
+    if (!this.featuredMediaUrl.includes(currentImageRawUrl)) {
       const imageFade = image.animate([{ opacity: 0.8 }, { opacity: 1 }], {
         duration: 125,
         easing: 'ease-in-out',

@@ -7,13 +7,14 @@
 {%- enddoc -%}
 
 {% liquid
+  assign block_settings = block.settings
   assign animation_speed = 200
 
-  if block.settings.menu_style == 'featured_products' and block.settings.product_title_case == 'uppercase'
+  if block_settings.menu_style == 'featured_products' and block_settings.product_title_case == 'uppercase'
     assign title_case_style = ' --title-case: uppercase;'
-  elsif block.settings.menu_style == 'featured_collections' and block.settings.collection_title_case == 'uppercase'
+  elsif block_settings.menu_style == 'featured_collections' and block_settings.collection_title_case == 'uppercase'
     assign title_case_style = ' --title-case: uppercase;'
-  elsif block.settings.menu_style == 'collection_images' and block.settings.collection_title_case == 'uppercase'
+  elsif block_settings.menu_style == 'collection_images' and block_settings.collection_title_case == 'uppercase'
     assign title_case_style = ' --title-case: uppercase;'
   endif
 %}
@@ -28,15 +29,15 @@
     >
       {% render 'header-drawer',
         class: 'header__drawer--mobile',
-        linklist: block.settings.menu,
+        linklist: block_settings.menu,
         data_header_drawer_type: 'mobile-drawer'
       %}
     </div>
 
   {% when 'navigation_bar' %}
-    {% if block.settings.navigation_bar == true %}
+    {% if block_settings.navigation_bar == true %}
       <div
-        class="menu-list menu-list--mobile{% if transparent == blank %} color-{{ block.settings.color_scheme_navigation_bar }}{% endif %}"
+        class="menu-list menu-list--mobile{% if transparent == blank %} color-{{ block_settings.color_scheme_navigation_bar }}{% endif %}"
         style="--menu-horizontal-gap: 15px; --mobile-nav-margin: auto;{{ title_case_style }}"
       >
         <div class="menu-list__scroll-container">
@@ -44,7 +45,7 @@
             class="menu-list__list list-unstyled"
             role="list"
           >
-            {% for link in block.settings.menu.links %}
+            {% for link in block_settings.menu.links %}
               <li>
                 <a
                   href="{{ link.url }}"
@@ -125,7 +126,7 @@
 
   /* Drawer menu featured content */
   .menu-drawer__featured-content {
-    z-index: var(--layer-lowest);
+    z-index: var(--layer-base);
     container-type: inline-size;
   }
 
@@ -447,6 +448,32 @@
     aspect-ratio: 16 / 9;
     margin-bottom: var(--padding-sm);
     object-fit: cover;
+    border-radius: var(--menu-image-border-radius);
+  }
+
+  /* Fix alignment for collection image mode links without images */
+  /* Target only top-level links (direct children of column > div) in collection image mode */
+  .mega-menu__grid:has(.mega-menu__link-image)
+    .mega-menu__column
+    > div
+    > .mega-menu__link:not(:has(.mega-menu__link-image)) {
+    display: flex;
+    flex-direction: column;
+    padding-inline: 0;
+    padding-block: var(--padding-sm) 0;
+  }
+
+  .mega-menu__grid:has(.mega-menu__link-image)
+    .mega-menu__column
+    > div
+    > .mega-menu__link:not(:has(.mega-menu__link-image))::before {
+    content: '';
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-bottom: var(--padding-sm);
+    background-color: var(--color-foreground-muted);
+    opacity: 0.1;
     border-radius: var(--menu-image-border-radius);
   }
 
