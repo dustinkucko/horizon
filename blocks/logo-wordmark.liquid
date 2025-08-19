@@ -1,0 +1,226 @@
+{% liquid
+  assign block_settings = block.settings
+  assign text = block_settings.text | default: shop.name
+
+  # Map select value -> CSS font family variable
+  assign font_css_value = 'var(--font-accent--family)'
+  case block_settings.font
+    when 'accent'
+      assign font_css_value = 'var(--font-accent--family)'
+    when 'heading'
+      assign font_css_value = 'var(--font-heading--family)'
+    when 'subheading'
+      assign font_css_value = 'var(--font-subheading--family)'
+    when 'body'
+      assign font_css_value = 'var(--font-body--family)'
+  endcase
+%}
+
+<div
+  class="logo-wordmark-block spacing-style"
+  style="
+    --logo-wordmark-font-family: {{ font_css_value }};
+    {% if block_settings.unit == 'percent' %}
+      --logo-width: {{ block_settings.percent_width }}%;
+    {% else %}
+      --logo-width: {{ text | size }}ch;
+      --logo-height: {{ block_settings.pixel_height }}px;
+    {% endif %}
+
+    {% if block_settings.custom_mobile_size %}
+      {% if block_settings.unit_mobile == 'percent' %}
+        --logo-width-mobile: {{ block_settings.percent_width_mobile }}%;
+        --logo-height-mobile: auto;
+      {% else %}
+        --logo-width-mobile: {{ text | size }}ch;
+        --logo-height-mobile: {{ block_settings.pixel_height_mobile }}px;
+      {% endif %}
+    {% endif %}
+    {% render 'spacing-style', settings: block_settings %}
+  "
+  {{ block.shopify_attributes }}
+>
+  {% render 'jumbo-text', text: text %}
+</div>
+
+{% stylesheet %}
+  .logo-wordmark-block {
+    font-family: var(--logo-wordmark-font-family, inherit);
+    width: calc(var(--logo-width) + var(--padding-inline-start) + var(--padding-inline-end));
+    max-width: 100%;
+    max-height: calc(var(--logo-height, 100%) + var(--padding-block-start) + var(--padding-block-end));
+    font-size: var(--logo-height);
+    display: flex;
+
+    @media screen and (max-width: 750px) {
+      max-height: calc(
+        var(--logo-height-mobile, var(--logo-height, 100%)) + var(--padding-block-start) + var(--padding-block-end)
+      );
+      font-size: var(--logo-height-mobile, var(--logo-height));
+      width: calc(
+        var(--logo-width-mobile, var(--logo-width)) + var(--padding-inline-start) + var(--padding-inline-end)
+      );
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.logo_wordmark",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:settings.text",
+      "default": "Logo wordmark"
+    },
+    {
+      "type": "select",
+      "id": "font",
+      "label": "t:settings.font",
+      "options": [
+        { "value": "body", "label": "t:options.body" },
+        { "value": "subheading", "label": "t:options.subheading" },
+        { "value": "heading", "label": "t:options.heading" },
+        { "value": "accent", "label": "t:options.accent" }
+      ],
+      "default": "accent"
+    },
+    {
+      "type": "header",
+      "content": "t:content.size"
+    },
+    {
+      "type": "select",
+      "id": "unit",
+      "label": "t:settings.unit",
+      "options": [
+        { "value": "pixel", "label": "t:options.pixel" },
+        { "value": "percent", "label": "t:options.percent" }
+      ],
+      "default": "percent"
+    },
+    {
+      "type": "range",
+      "id": "percent_width",
+      "label": "t:settings.width",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.unit == 'percent' }}"
+    },
+    {
+      "type": "range",
+      "id": "pixel_height",
+      "label": "t:settings.height",
+      "min": 16,
+      "max": 320,
+      "step": 8,
+      "unit": "px",
+      "default": 48,
+      "visible_if": "{{ block.settings.unit == 'pixel' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "custom_mobile_size",
+      "label": "t:settings.custom_mobile_size",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:content.mobile_size",
+      "visible_if": "{{ block.settings.custom_mobile_size == true }}"
+    },
+    {
+      "type": "select",
+      "id": "unit_mobile",
+      "label": "t:settings.unit",
+      "options": [
+        { "value": "pixel", "label": "t:options.pixel" },
+        { "value": "percent", "label": "t:options.percent" }
+      ],
+      "default": "percent",
+      "visible_if": "{{ block.settings.custom_mobile_size == true }}"
+    },
+    {
+      "type": "range",
+      "id": "percent_width_mobile",
+      "label": "t:settings.width",
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 100,
+      "visible_if": "{{ block.settings.unit_mobile == 'percent' and block.settings.custom_mobile_size == true}}"
+    },
+    {
+      "type": "range",
+      "id": "pixel_height_mobile",
+      "label": "t:settings.height",
+      "min": 16,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 120,
+      "visible_if": "{{ block.settings.unit_mobile == 'pixel' and block.settings.custom_mobile_size == true}}"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.logo_wordmark",
+      "category": "t:categories.basic",
+      "settings": {
+        "unit": "pixel",
+        "pixel_height": 48
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -18,8 +18,8 @@
           "type": "_divider",
           "name": "t:names.divider",
           "settings": {
-            "thickness": 1,
-            "corner_radius": "square",
+            "thickness": 2,
+            "corner_radius": "rounded",
             "width_percent": 100,
             "padding-block-start": 0,
             "padding-block-end": 0
@@ -28,7 +28,7 @@
         },
         "group_tbFfTQ": {
           "type": "group",
-          "name": "Email signup",
+          "name": "Join the club",
           "settings": {
             "link": "",
             "open_in_new_tab": false,
@@ -55,6 +55,7 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
+            "placeholder": "",
             "toggle_overlay": false,
             "overlay_color": "#00000026",
             "overlay_style": "solid",
@@ -67,7 +68,7 @@
           "blocks": {
             "group_4aCyy7": {
               "type": "group",
-              "name": "Content",
+              "name": "t:names.group",
               "settings": {
                 "link": "",
                 "open_in_new_tab": false,
@@ -94,6 +95,7 @@
                 "border_width": 1,
                 "border_opacity": 100,
                 "border_radius": 0,
+                "placeholder": "",
                 "toggle_overlay": false,
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
@@ -108,11 +110,11 @@
                   "type": "text",
                   "name": "Heading",
                   "settings": {
-                    "text": "<p>Join our email list</p>",
+                    "text": "<h2>Join the club</h2>",
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h4",
+                    "type_preset": "h3",
                     "font": "var(--font-primary--family)",
                     "font_size": "",
                     "line_height": "normal",
@@ -138,7 +140,7 @@
                     "width": "fit-content",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "rte",
+                    "type_preset": "paragraph",
                     "font": "var(--font-primary--family)",
                     "font_size": "",
                     "line_height": "normal",
@@ -164,15 +166,15 @@
             },
             "email_signup_NcLwNb": {
               "type": "email-signup",
-              "name": "Email input",
+              "name": "t:names.email_signup",
               "settings": {
                 "width": "custom",
                 "custom_width": 50,
                 "inherit_color_scheme": true,
                 "color_scheme": "scheme-1",
                 "border_style": "all",
-                "border_width": 1,
-                "border_radius": 39,
+                "border_width": 2,
+                "border_radius": 36,
                 "input_type_preset": "paragraph",
                 "style_class": "button-unstyled",
                 "display_type": "arrow",
@@ -205,6 +207,7 @@
               "type": "_footer-copyright",
               "static": true,
               "settings": {
+                "show_powered_by": true,
                 "font_size": "0.75rem",
                 "case": "none"
               },
@@ -221,6 +224,7 @@
             },
             "social_icons": {
               "type": "_footer-social-icons",
+              "disabled": true,
               "static": true,
               "settings": {},
               "blocks": {
@@ -228,7 +232,7 @@
                   "type": "_social-link",
                   "name": "Facebook",
                   "settings": {
-                    "link": "https://www.facebook.com/"
+                    "link": "https://www.facebook.com/shopify"
                   },
                   "blocks": {}
                 },
@@ -236,7 +240,7 @@
                   "type": "_social-link",
                   "name": "Instagram ",
                   "settings": {
-                    "link": "https://www.instagram.com/"
+                    "link": "https://www.instagram.com/shopify/#"
                   },
                   "blocks": {}
                 },
@@ -244,7 +248,7 @@
                   "type": "_social-link",
                   "name": "TikTok",
                   "settings": {
-                    "link": "https://www.tiktok.com/"
+                    "link": "https://www.tiktok.com/@shopify"
                   },
                   "blocks": {}
                 },
@@ -252,7 +256,7 @@
                   "type": "_social-link",
                   "name": "X / Twitter",
                   "settings": {
-                    "link": "https://x.com/"
+                    "link": "https://x.com/shopify"
                   },
                   "blocks": {}
                 },
@@ -260,7 +264,7 @@
                   "type": "_social-link",
                   "name": "YouTube",
                   "settings": {
-                    "link": "https://www.youtube.com/"
+                    "link": "https://www.youtube.com/shopify"
                   },
                   "blocks": {}
                 }
@@ -299,7 +303,7 @@
         "video_position": "cover",
         "background_image_position": "cover",
         "padding-block-start": 0,
-        "padding-block-end": 30
+        "padding-block-end": 48
       }
     }
   },
