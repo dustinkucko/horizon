@@ -52,11 +52,12 @@ git --no-pager log --oneline "$BASE"..main
 
 # Cherry-pick your changes after baseline onto the new vendor version
 # Resolve conflicts if they arise (add files, then --continue)
-git cherry-pick "$BASE"..main || true
-# If conflicts appear:
-#   - fix files, git add -A
+git cherry-pick --reverse "$BASE"..main || true
+# If conflicts appear, merge changes and fix files then:
+#   - git add -A
 #   - git cherry-pick --continue
-# Abort if necessary: git cherry-pick --abort
+# Else abort if necessary:
+#   - git cherry-pick --abort
 ```
 
 ## 4) Push and open PR
