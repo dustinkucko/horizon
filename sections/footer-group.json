@@ -171,6 +171,8 @@
                 "width": "custom",
                 "custom_width": 50,
                 "inherit_color_scheme": true,
+                "heading": "",
+                "heading_preset": "h3",
                 "color_scheme": "scheme-1",
                 "border_style": "all",
                 "border_width": 2,
@@ -224,13 +226,13 @@
             },
             "social_icons": {
               "type": "_footer-social-icons",
-              "disabled": true,
               "static": true,
               "settings": {},
               "blocks": {
                 "social_link_JnLXB6": {
                   "type": "_social-link",
                   "name": "Facebook",
+                  "disabled": true,
                   "settings": {
                     "link": "https://www.facebook.com/shopify"
                   },
@@ -240,7 +242,7 @@
                   "type": "_social-link",
                   "name": "Instagram ",
                   "settings": {
-                    "link": "https://www.instagram.com/shopify/#"
+                    "link": "https://www.instagram.com/carbolance/"
                   },
                   "blocks": {}
                 },
@@ -248,7 +250,7 @@
                   "type": "_social-link",
                   "name": "TikTok",
                   "settings": {
-                    "link": "https://www.tiktok.com/@shopify"
+                    "link": "https://www.tiktok.com/@carbolance"
                   },
                   "blocks": {}
                 },
@@ -256,7 +258,7 @@
                   "type": "_social-link",
                   "name": "X / Twitter",
                   "settings": {
-                    "link": "https://x.com/shopify"
+                    "link": "https://x.com/carbolance"
                   },
                   "blocks": {}
                 },
@@ -264,7 +266,7 @@
                   "type": "_social-link",
                   "name": "YouTube",
                   "settings": {
-                    "link": "https://www.youtube.com/shopify"
+                    "link": "https://www.youtube.com/@carbolance"
                   },
                   "blocks": {}
                 }
